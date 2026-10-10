@@ -17,7 +17,7 @@ const path = (p: string) => `${base}${p.replace(/^\//,'')}`;
   <meta name="description" content={description} />
   <meta property="og:title" content={`${title} — ${profile.fullName}`} />
   <meta property="og:description" content={description} />
-  <title>{title} — {profile.fullName}</title>
+  <title>{profile.fullName}</title>
   <link rel="icon" href={path('favicon.svg')} type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
