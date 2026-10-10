@@ -53,10 +53,10 @@ const path = (p: string) => `${base}${p.replace(/^\//,'')}`;
         <button class="palette-launch" type="button" title="Search pages (Ctrl+K)" aria-label="Open command palette">⌕ <span class="palette-key">Ctrl K</span></button>
         <button class="theme-toggle" aria-label="Switch color theme" aria-pressed="false" title="Toggle light / dark mode"><span class="theme-sun">☼</span><span class="theme-moon">☾</span></button>
         <a class="header-contact" href={profile.links.linktree} target="_blank" rel="noopener noreferrer">Connect <span aria-hidden="true">↗</span></a>
-        <button class="menu-toggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+        <button class="menu-toggle" type="button" aria-label="Open navigation" aria-controls="mobile-navigation" aria-expanded="false">☰</button>
       </div>
     </header>
-    <nav class="mobile-nav" aria-label="Mobile navigation" hidden><a href={path('')}>Home</a><a href={path('projects/')}>Projects</a><a href={path('notes/')}>Notes</a><a href={path('about/')}>About</a></nav>
+    <nav id="mobile-navigation" class="mobile-nav" aria-label="Mobile navigation" hidden><a href={path('')}>Home</a><a href={path('projects/')}>Projects</a><a href={path('notes/')}>Notes</a><a href={path('about/')}>About</a></nav>
     <main id="main"><slot /></main>
     <footer class="site-footer">
       <div><span class="footer-mark">N<span class="brand-accent">.</span></span><p>Curiosity, computation<br />& the materials around us.</p></div>
@@ -91,8 +91,31 @@ const path = (p: string) => `${base}${p.replace(/^\//,'')}`;
     });
     const menu = document.querySelector<HTMLButtonElement>('.menu-toggle');
     const nav = document.querySelector<HTMLElement>('.mobile-nav');
-    menu?.addEventListener('click', () => { const open = nav?.hasAttribute('hidden'); if (!nav) return; nav.hidden = !open; menu.setAttribute('aria-expanded', String(open)); menu.textContent = open ? '×' : '☰'; });
-    nav?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { nav.hidden = true; menu?.setAttribute('aria-expanded', 'false'); }));
+    // Keep the menu anchored to the viewport and synchronized with its trigger.
+    // Do not modify scroll position when opening or closing it.
+    const setMenuOpen = (open: boolean) => {
+      if (!nav || !menu) return;
+      nav.hidden = !open;
+      menu.setAttribute('aria-expanded', String(open));
+      menu.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+      menu.textContent = open ? '×' : '☰';
+    };
+    menu?.addEventListener('click', () => setMenuOpen(nav?.hidden ?? false));
+    nav?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenuOpen(false)));
+    document.addEventListener('pointerdown', (event) => {
+      if (nav?.hidden) return;
+      const target = event.target as Node;
+      if (!nav?.contains(target) && !menu?.contains(target)) setMenuOpen(false);
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && nav && !nav.hidden) {
+        setMenuOpen(false);
+        menu?.focus({preventScroll:true});
+      }
+    });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 1100) setMenuOpen(false);
+    });
     const overlay = document.querySelector<HTMLElement>('.palette-overlay')!;
     const searchInput = document.querySelector<HTMLInputElement>('.palette-input')!;
     const results = document.querySelector<HTMLElement>('.palette-results')!;

@@ -113,3 +113,11 @@ The palette is centralized in CSS custom properties in `src/styles.css`. Both th
 ## Validation status
 
 The complete source ZIP contains no dependencies or generated files. It is structured for Astro 5 and GitHub Pages. If installation cannot access npm in the current environment, a full local production build cannot be certified; GitHub Actions will provide the definitive build result after you push. Inspect its logs for errors.
+
+
+### V6.1 mobile navigation and contact fix
+
+- Header and hamburger menu remain fixed at the top of the viewport on phones and tablets.
+- The navigation opens immediately beneath the top-right hamburger button without jumping back to the start of the document. Tap outside or press Escape to close.
+- Bottom **Get in touch** links to the public Linktree profile in the same tab, avoiding mobile pop-up blocking. The button is also elevated above decorative effects for reliable touch input.
+- Theme toggle, project content, materials explorer and command palette are unchanged.
