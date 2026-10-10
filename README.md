@@ -1,110 +1,84 @@
-# Niloy — Research & Exploration
+# Niloy — personal research website (Version 5)
 
-Personal research website for **Nafiz Fuad Niloy**. Astro 5, static hosting, responsive layout, animated scientific graph, light/dark theme switcher, Markdown-managed projects and notes.
+Static Astro website for **Nafiz Fuad Niloy**, a fourth-year Energy Science and Engineering undergraduate at KUET. The site is configured for `nf-niloy.github.io` on GitHub Pages.
 
-## Quick start
+## What's included
 
-You need **Node.js 22** and npm.
+- Deep Ocean palette with independent light and dark themes, respecting your saved theme selection.
+- Interactive 3D crystal-lattice hero with pause/reset, drag rotation and reduced-motion support.
+- Lightweight ambient particles and short connecting lines behind every page. They throttle on mobile and stop when the tab is hidden.
+- **About:** four professional icon-led horizontal chips for degree, university, academic field and location.
+- **Projects:** ongoing lead-free-perovskite undergraduate thesis (only title, brief summary, keywords, status, supervisor) and completed 2025 battery thermal management project.
+- **Research notes:** Markdown notes library with real-note-only featured article, keyword filters and a designed zero-entry state. No fictional notes are published.
+- **Command palette:** Ctrl+K / Cmd+K, with projects and published notes in the search index.
+- Responsive layouts, plus editorial typography (Plus Jakarta Sans headings, Source Sans 3 reading text, IBM Plex Mono labels).
+
+## Install and preview
+
+You need Node.js 22 (includes npm). From the folder that contains `package.json`:
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open the localhost URL printed by Astro. Production build:
+Open the localhost address Astro prints (typically `http://localhost:4321`). Before deployment run `npm run build`.
 
-```bash
-npm run build
-npm run preview
+## Deploy on GitHub Pages
+
+1. Unzip this project and **copy the contents of `niloy-research-site-v5/`** into your existing local repository folder `D:\niloy-research-site`. The ZIP has no `.git` directory: **preserve your existing `.git` folder**.
+2. Make sure the hidden `.github/workflows/deploy.yml` directory is copied too.
+3. Commit and push:
+
+```powershell
+cd "D:\niloy-research-site"
+git add .
+git commit -m "Refresh website design and content — V5"
+git push origin main
 ```
 
-## Change your personal information
+4. In GitHub → Settings → Pages, set **Source: GitHub Actions**. The included workflow builds and deploys the site.
 
-Edit **`src/data/profile.ts`**. This controls the name, tagline, university, research interests, contact links and homepage text. The email and social links that aren't known have been left empty, not invented.
+Site: <https://nf-niloy.github.io/>
 
-## Add a project
+## Maintain content without changing components
 
-1. Copy `src/content/projects/battery-thermal-management.md` to a new descriptive filename, for example `new-materials-study.md`.
-2. Change its YAML frontmatter (`title`, `year`, `status`, `summary`, `tags`, optional `image`, `github`, `report`).
-3. Write the project details below `---` with normal Markdown.
-4. Commit and push. The home/projects pages and the individual project page update automatically.
+| What to change | File / folder |
+| --- | --- |
+| Name, university, bio, research interests, social links | `src/data/profile.ts` |
+| Projects, including thesis, project metadata and reports | `src/content/projects/*.md` |
+| Research notes | `src/content/notes/*.md` |
+| Main page headings and sections | `src/pages/index.astro` |
+| About page icon chips | `src/pages/about/index.astro` |
+| Color variables and layouts | `src/styles.css` |
+| Hero crystal lattice | `src/components/Graph.astro` |
+| Ambient particles and lines | `src/scripts/ambient.ts` |
+| Navigation/theme/command palette | `src/layouts/Base.astro` |
 
-`image` accepts a full image URL; you can also put an image in `public/images/` and set its URL accordingly (for subpath hosting, use an absolute remote URL, or write an image URL using `import.meta.env.BASE_URL` in a component). For best results, use landscape images.
+### Publish a note
 
-## Add a research note
-
-Create a Markdown file such as `src/content/notes/graph-neural-networks.md`:
+Add `src/content/notes/my-research-note.md`:
 
 ```md
 ---
-title: "Graph neural networks: a reading note"
+title: "A reading note on crystal graph networks"
 date: 2026-10-10
-description: "Notes on message passing and atomistic learning."
+description: "Some observations from a paper I studied."
 tags: ["GNN", "Materials"]
 draft: false
 ---
 
-# Introduction
-
-Your writing goes here.
+Your actual note goes here.
 ```
 
-Set `draft: true` to hide an unfinished note. The `README.md` in the notes folder is excluded from the collection.
+The example above is documentation only; it is **not published**. To hide an unfinished note, set `draft: true`.
 
-## Reports and CV
+### Reports and PDF files
 
-You can add PDFs to `public/reports/` and link them from a project Markdown file, or point `report:` to a hosted PDF (the first project uses its public GitHub report link). There is no fabricated CV or publications section; add those when you have content. For a static PDF you want accessible from either GitHub Pages hosting mode, linking through Markdown using external URLs is simplest; to link local PDFs for project-site hosting, prefix them with the deployment base path.
+PDFs can be placed under `public/reports/` and linked from a project. The battery project's report points directly to its existing GitHub repository. The undergraduate thesis PDF is deliberately not included or published.
 
-## Host on GitHub Pages
+## Accessibility and performance
 
-**Recommended: user site**
+The ambient animation and automatic lattice rotation honor `prefers-reduced-motion`. The ambient canvas is decorative and doesn't capture clicks. Lattice controls can be used without dragging. The site avoids a backend and is suitable for static hosting.
 
-1. Make a repository named **`nf-niloy.github.io`**.
-2. Upload these files into the repo root (or push your local clone).
-3. Ensure the default branch is named `main`.
-4. In GitHub: **Settings → Pages → Build and deployment → Source → GitHub Actions**.
-5. Push to `main`. The included `.github/workflows/deploy.yml` installs, builds and deploys the site.
-6. Your URL: `https://nf-niloy.github.io/`.
-
-**Alternative: any repo name**
-
-The workflow automatically sets Astro's `BASE_PATH=/<repository-name>/` and creates a Pages site at `https://nf-niloy.github.io/<repository-name>/`.
-
-If your GitHub username is different, change the repo name or SITE_URL/BASE_PATH environment values as appropriate. For a custom domain, update `site` configuration and deployment settings.
-
-## Customize design
-
-- Theme colors and responsive layout: `src/styles.css`, in `:root` and `html[data-theme=dark]`.
-- Animated graph: `src/components/Graph.astro`.
-- Hero, sections and wording: `src/pages/index.astro`.
-- Header and navigation: `src/layouts/Base.astro`.
-- Project card: `src/components/ProjectCard.astro`.
-
-Accessibility: visible focus navigation, mobile menu, responsive pages, alt text, reduced-motion support. The graph is decorative and does not require pointer interaction to access content.
-
-## Attribution
-
-The original project repository, setup photograph and report belong to their corresponding project creator. Google Fonts are fetched from Google's font CDN; the site otherwise does not require a backend, database or API key.
-
-
-## Version 2 — Copper / Ivory redesign
-
-- Homepage features the ongoing undergraduate thesis with **only** its title, short summary, keywords, status and supervisor. The private thesis PDF is **not** published.
-- Edit thesis details in `src/content/projects/reliability-aware-perovskite-thesis.md`.
-- Theme colors and interactions are in `src/styles.css`; light/dark mode continues to work.
-- New responsive research constellation and improved pointer-reactive crystal graph. Both respect reduced-motion settings.
-- Existing finished battery-management project and its external links are preserved.
-
-To replace a previous installation, extract this ZIP and copy the **contents of `niloy-research-site-v2`** into your existing `D:\niloy-research-site` folder, replacing older files. Keep your `.git` folder; do not copy `.git` from elsewhere. Then run `npm install`, `npm run build`, `git add .`, `git commit -m "Redesign portfolio and add thesis"`, `git push`.
-
-
-## Version 3 additions
-
-- Interactive lattice: mouse/touch drag to rotate, pause/play, reset, Shift + scroll to zoom. Reduced-motion preferences stop automatic rotation. (`src/components/Graph.astro`)
-- Academic timeline: verified 2025 and 2026–2027 entries (`src/pages/index.astro`).
-- Command palette: press **Ctrl+K** (Windows/Linux) or **Cmd+K** (Mac), or click the search button. Search pages, projects, and published notes.
-- Research notes: add a Markdown file in `src/content/notes/` with frontmatter (`title`, `date`, `description`, `tags`, `draft: false`). Search and tag-filter UI is automatically generated.
-- Thesis PDF and detailed research methodology are **not** published.
-- Styling: warm copper and ivory; themes retained.
-
-**Important:** Always test with `npm install` and `npm run build` where possible. GitHub Actions also builds automatically on push.
+**Build status:** The source is packaged and scripts are statically checked; a complete Astro production build was not verified in this environment because npm dependency installation timed out. The GitHub Actions deployment will run the full build after you push.

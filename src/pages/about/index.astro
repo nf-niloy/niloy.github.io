@@ -1,5 +1,51 @@
 ---
 import Base from '../../layouts/Base.astro';
-import {profile} from '../../data/profile';
+import { profile } from '../../data/profile';
 ---
-<Base title="About"><section class="page-top reveal"><span class="index-label">ABOUT ME / 03</span><h1>Hi, I'm <em>{profile.name}.</em></h1><p>{profile.intro}</p></section><section class="section about-section"><div class="section-head"><span class="index-label">01 / BACKGROUND</span><span class="section-rule"></span></div><div class="about-grid"><h2>Engineering roots.<br/><em>Computational curiosity.</em></h2><div><p>I am {profile.fullName}, a {profile.year} {profile.degree} student in {profile.department} at {profile.university}.</p><p>My interests sit at the intersection of engineering, machine learning and scientific computation. I am particularly interested in how graph-based learning and atomistic modeling can contribute to energy-materials discovery.</p><div class="facts"><div><span>EDUCATION</span><strong>{profile.degree}</strong></div><div><span>DEPARTMENT</span><strong>{profile.department}</strong></div><div><span>INSTITUTION</span><strong>{profile.universityAbbr}</strong></div><div><span>LOCATION</span><strong>{profile.location}</strong></div></div></div></div></section><section class="section about-section"><div class="section-head"><span class="index-label">02 / INTERESTS</span><span class="section-rule"></span></div><div class="about-grid"><h2>Questions I'm<br/><em>drawn to.</em></h2><div class="interest-list">{profile.interests.map((item,i)=><div class="interest-item"><span class="interest-count">{String(i+1).padStart(2,'0')}</span><div><h3>{item.title}</h3><p>{item.detail}</p></div></div>)}</div></div></section><section class="contact-banner"><div class="eyebrow">LET'S CONNECT</div><h2>Open to <em>ideas.</em></h2><p>{profile.availability}.</p><a class="button button-light" href={profile.links.linktree} target="_blank" rel="noopener noreferrer">Find me online <span>↗</span></a></section></Base>
+<Base title="About">
+  <section class="page-top reveal">
+    <span class="index-label">ABOUT / THE PERSON BEHIND THE WORK</span>
+    <h1>Hi, I'm <em>{profile.name}.</em></h1>
+    <p>{profile.intro}</p>
+  </section>
+
+  <section class="section about-section" aria-labelledby="background-title">
+    <div class="section-head"><span class="index-label">01 / BACKGROUND</span><span class="section-rule"></span></div>
+    <div class="about-grid">
+      <h2 id="background-title">Engineering roots.<br/><em>Computational curiosity.</em></h2>
+      <div class="about-copy">
+        <p>I am {profile.fullName}, a {profile.year} undergraduate studying {profile.department} at {profile.university}.</p>
+        <p>My interests sit at the intersection of engineering, machine learning and scientific computation. I am particularly interested in how graph-based learning and atomistic modeling can contribute to energy-materials discovery.</p>
+      </div>
+    </div>
+
+    <div class="facts" aria-label="Academic background and location">
+      <div class="fact-chip">
+        <span class="fact-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m2 10 10-6 10 6-10 6Z"/><path d="M6 12.5V17c3.8 3.2 8.2 3.2 12 0v-4.5"/><path d="M22 10v7"/></svg></span>
+        <span class="fact-text"><small>Degree</small>{profile.degree}</span>
+      </div>
+      <div class="fact-chip">
+        <span class="fact-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8v13h18V8L12 3Z"/><path d="M8 21v-8h8v8"/><path d="M9 9h.01M15 9h.01"/></svg></span>
+        <span class="fact-text"><small>University</small>{profile.universityAbbr}</span>
+      </div>
+      <div class="fact-chip">
+        <span class="fact-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(45 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(-45 12 12)"/></svg></span>
+        <span class="fact-text"><small>Field</small>{profile.department}</span>
+      </div>
+      <div class="fact-chip">
+        <span class="fact-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 5.5-8 12-8 12S4 15.5 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+        <span class="fact-text"><small>Location</small>{profile.location}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section about-section">
+    <div class="section-head"><span class="index-label">02 / INTERESTS</span><span class="section-rule"></span></div>
+    <div class="about-grid"><h2>Questions I'm<br/><em>drawn to.</em></h2>
+      <div class="interest-list">
+        {profile.interests.map((item,i)=><div class="interest-item"><span class="interest-count">{String(i+1).padStart(2,'0')}</span><div><h3>{item.title}</h3><p>{item.detail}</p></div></div>)}
+      </div>
+    </div>
+  </section>
+  <section class="contact-banner"><div class="eyebrow">LET'S CONNECT</div><h2>Open to <em>ideas.</em></h2><p>{profile.availability}.</p><a class="button button-light" href={profile.links.linktree} target="_blank" rel="noopener noreferrer">Find me online <span>↗</span></a></section>
+</Base>

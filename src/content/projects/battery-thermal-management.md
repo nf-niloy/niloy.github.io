@@ -14,18 +14,18 @@ featured: true
 
 ## Overview
 
-An Arduino-based intelligent battery thermal management system designed to continuously monitor lithium-ion battery temperature and automatically respond to abnormal thermal conditions through a **three-stage protection mechanism**.
+An Arduino-based intelligent battery thermal management system designed to continuously monitor lithium-ion battery temperature and automatically respond to abnormal thermal conditions through a three-stage protection mechanism.
 
-The system combines **dual temperature sensing, automated cooling, emergency load disconnection, sensor fault detection, and real-time LCD monitoring** to demonstrate a low-cost approach to battery thermal management.
+The system combines dual temperature sensing, automated cooling, emergency load disconnection, sensor fault detection, and real-time LCD monitoring to demonstrate a low-cost approach to battery thermal management.
 
 ## Key features
 
-- **Real-time monitoring:** Continuous visibility into battery temperature on an LCD.
-- **Dual-sensor temperature measurement:** Two sensors provide readings for thermal monitoring.
-- **Multi-stage thermal protection:** Escalating responses to abnormal conditions.
-- **Automated cooling:** Cooling activates in response to temperature conditions.
-- **Emergency load disconnection:** The system can interrupt the load as a protective measure.
-- **Sensor fault detection:** Detects a sensor fault condition.
+- Real-time monitoring: Continuous visibility into battery temperature on an LCD.
+- Dual-sensor temperature measurement: Two sensors provide readings for thermal monitoring.
+- Multi-stage thermal protection: Escalating responses to abnormal conditions.
+- Automated cooling: Cooling activates in response to temperature conditions.
+- Emergency load disconnection: The system can interrupt the load as a protective measure.
+- Sensor fault detection: Detects a sensor fault condition.
 
 ## Documentation
 

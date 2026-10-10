@@ -12,4 +12,4 @@ featured: true
 
 This undergraduate thesis explores the use of reliability-aware graph learning for lead-free halide perovskite photovoltaic absorber discovery.
 
-**Status:** Ongoing research. Results and findings have not yet been published here.
+Status: Ongoing research. Results and findings have not yet been published here.

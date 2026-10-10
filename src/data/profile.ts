@@ -4,7 +4,7 @@ export const profile = {
   name: 'Niloy',
   role: 'Undergraduate Researcher',
   eyebrow: 'ENERGY ENGINEERING × MACHINE LEARNING',
-  headline: ['Exploring materials.', 'Learning from atoms.'],
+  headline: ['From structure.', 'To possibility.'],
   intro: 'I am an undergraduate Energy Science and Engineering student working at the intersection of machine learning and energy materials.',
   location: 'Khulna, Bangladesh',
   university: 'Khulna University of Engineering & Technology',
