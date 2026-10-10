@@ -1,0 +1,69 @@
+---
+import { profile } from '../data/profile';
+import '../styles.css';
+const { title = 'Research & Exploration', description = profile.intro } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const path = (p: string) => `${base}${p.replace(/^\//,'')}`;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f3f4ee" />
+  <meta name="description" content={description} />
+  <meta property="og:title" content={`${title} — ${profile.fullName}`} />
+  <meta property="og:description" content={description} />
+  <title>{title} — {profile.fullName}</title>
+  <link rel="icon" href={path('favicon.svg')} type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script is:inline>
+    try { let value = localStorage.getItem('niloy-theme'); document.documentElement.dataset.theme = value === 'light' || value === 'dark' ? value : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); } catch(_) { document.documentElement.dataset.theme = 'light'; }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="site-shell">
+    <header class="site-header">
+      <a class="brand" href={path('')} aria-label="Niloy — home"><span class="brand-symbol">N<span class="brand-accent">.</span></span><span class="brand-caption">NAFIZ FUAD<br />NILOY</span></a>
+      <nav aria-label="Main navigation" class="desktop-nav">
+        <a href={path('')} class={Astro.url.pathname === base ? 'selected' : ''}>Home</a>
+        <a href={path('projects/')}>Projects</a>
+        <a href={path('notes/')}>Notes</a>
+        <a href={path('about/')}>About</a>
+      </nav>
+      <div class="header-actions">
+        <button class="theme-toggle" aria-label="Switch color theme" aria-pressed="false" title="Toggle light / dark mode"><span class="theme-sun">☼</span><span class="theme-moon">☾</span></button>
+        <a class="header-contact" href={profile.links.linktree} target="_blank" rel="noopener noreferrer">Connect <span aria-hidden="true">↗</span></a>
+        <button class="menu-toggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+      </div>
+    </header>
+    <nav class="mobile-nav" aria-label="Mobile navigation" hidden><a href={path('')}>Home</a><a href={path('projects/')}>Projects</a><a href={path('notes/')}>Notes</a><a href={path('about/')}>About</a></nav>
+    <main id="main"><slot /></main>
+    <footer class="site-footer">
+      <div><span class="footer-mark">N<span class="brand-accent">.</span></span><p>Curiosity, computation<br />& the materials around us.</p></div>
+      <div class="footer-links"><a href={profile.links.github} target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href={profile.links.linktree} target="_blank" rel="noopener noreferrer">Linktree ↗</a>{profile.links.email && <a href={`mailto:${profile.links.email}`}>Email ↗</a>}</div>
+      <div class="footer-end">© {new Date().getFullYear()} {profile.name}<span>Built for exploration.</span></div>
+    </footer>
+  </div>
+  <script>
+    const button = document.querySelector<HTMLButtonElement>('.theme-toggle');
+    const updatePressed = () => button?.setAttribute('aria-pressed', String(document.documentElement.dataset.theme === 'dark'));
+    updatePressed();
+    button?.addEventListener('click', () => {
+      const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = next;
+      try { localStorage.setItem('niloy-theme', next); } catch(_) {}
+      updatePressed();
+    });
+    const menu = document.querySelector<HTMLButtonElement>('.menu-toggle');
+    const nav = document.querySelector<HTMLElement>('.mobile-nav');
+    menu?.addEventListener('click', () => { const open = nav?.hasAttribute('hidden'); if (!nav) return; nav.hidden = !open; menu.setAttribute('aria-expanded', String(open)); menu.textContent = open ? '×' : '☰'; });
+    nav?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { nav.hidden = true; menu?.setAttribute('aria-expanded', 'false'); }));
+    const ob = new IntersectionObserver(entries => entries.forEach(e => {if (e.isIntersecting) {e.target.classList.add('is-visible');ob.unobserve(e.target);}}), {threshold: .08});
+    document.querySelectorAll('.reveal').forEach(el => ob.observe(el));
+  </script>
+</body>
+</html>

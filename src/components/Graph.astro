@@ -1,0 +1,39 @@
+<div class="graph-scene" role="img" aria-label="Interactive visualization of a connected molecular graph">
+  <svg id="molecule-network" viewBox="0 0 680 570" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <defs><radialGradient id="network-halo"><stop offset="0" stop-color="var(--graph-halo)" stop-opacity=".7"/><stop offset="1" stop-color="var(--graph-halo)" stop-opacity="0"/></radialGradient></defs>
+    <circle class="graph-halo" cx="342" cy="280" r="230" fill="url(#network-halo)"/>
+    <g class="graph-orbit orbit-one"><circle cx="342" cy="280" r="212" fill="none" stroke="var(--graph-line)" stroke-dasharray="2 12" opacity=".2" /></g>
+    <g id="graph-edges"></g><g id="graph-nodes"></g>
+    <text x="31" y="42" class="graph-label">FIG. 01 / CONNECTED SYSTEMS</text><text x="470" y="532" class="graph-label">STRUCTURE → INSIGHT</text>
+  </svg>
+  <div class="graph-floating graph-floating-top">01 <span>/</span> ATOMIC STRUCTURES</div>
+  <div class="graph-floating graph-floating-bottom"><span class="green-led"></span> EXPLORATION IN PROGRESS</div>
+</div>
+<script>
+  const svg = document.getElementById('molecule-network') as SVGSVGElement | null;
+  const edgeLayer = document.getElementById('graph-edges'); const nodeLayer = document.getElementById('graph-nodes');
+  if (svg && edgeLayer && nodeLayer) {
+    const points = [
+      [130,272,9],[213,164,12],[320,116,8],[437,150,11],[523,249,9],
+      [494,367,12],[386,439,9],[259,424,13],[177,358,10],[312,270,18],
+      [399,313,9],[267,319,8],[372,205,10],[213,252,7],[454,240,7],
+      [345,363,8],[119,182,5],[549,150,5],[568,424,6],[138,449,6]
+    ];
+    const links = [[0,1],[0,8],[0,13],[1,2],[1,13],[1,16],[2,3],[2,12],[3,4],[3,12],[3,17],[4,5],[4,14],[5,6],[5,10],[5,18],[6,7],[6,15],[7,8],[7,11],[7,15],[7,19],[8,11],[9,10],[9,11],[9,12],[9,13],[9,14],[9,15],[10,14],[10,15],[11,13],[12,14],[13,16]];
+    const ns = 'http://www.w3.org/2000/svg';
+    const edgeEls = links.map(([a,b]) => {const el=document.createElementNS(ns,'line');el.setAttribute('class','graph-edge');edgeLayer.append(el);return {el,a,b};});
+    const nodeEls = points.map((p,i) => {const group=document.createElementNS(ns,'g');group.setAttribute('class','graph-node');const shell=document.createElementNS(ns,'circle');shell.setAttribute('r',String(p[2]+8));shell.setAttribute('class','node-shell');const sphere=document.createElementNS(ns,'circle');sphere.setAttribute('r',String(p[2]));sphere.setAttribute('class',i===9?'node-core':'node-sphere');const light=document.createElementNS(ns,'circle');light.setAttribute('cx',String(-p[2]*.22));light.setAttribute('cy',String(-p[2]*.24));light.setAttribute('r',String(p[2]*.29));light.setAttribute('class','node-glint');group.append(shell,sphere,light);nodeLayer.append(group);return group;});
+    const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let tx=0,ty=0,mx=0,my=0,frame=0,visible=true;
+    const setPositions=(time:number)=>{
+      const positions=points.map(([x,y],i)=>[x+(reduced?0:Math.sin(time*.00036+i*2.1)*(i%3+2)+mx*(.025+(i%4)*.009)), y+(reduced?0:Math.cos(time*.00046+i*1.7)*(i%4+2)+my*(.025+(i%3)*.009))]);
+      edgeEls.forEach(({el,a,b})=>{el.setAttribute('x1',String(positions[a][0]));el.setAttribute('y1',String(positions[a][1]));el.setAttribute('x2',String(positions[b][0]));el.setAttribute('y2',String(positions[b][1]));});
+      nodeEls.forEach((el,i)=>el.setAttribute('transform',`translate(${positions[i][0]} ${positions[i][1]})`));
+    };
+    const draw=(t:number)=>{mx+=(tx-mx)*.045;my+=(ty-my)*.045;setPositions(t);if(!reduced && visible)frame=requestAnimationFrame(draw);};
+    svg.addEventListener('pointermove',event=>{const rect=svg.getBoundingClientRect();tx=((event.clientX-rect.left)/rect.width-.5)*90;ty=((event.clientY-rect.top)/rect.height-.5)*90;});
+    svg.addEventListener('pointerleave',()=>{tx=0;ty=0;});
+    document.addEventListener('visibilitychange',()=>{visible=!document.hidden;if(visible&&!reduced)frame=requestAnimationFrame(draw);else cancelAnimationFrame(frame);});
+    if(reduced)setPositions(0);else frame=requestAnimationFrame(draw);
+  }
+</script>

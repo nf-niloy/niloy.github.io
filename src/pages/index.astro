@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import Graph from '../components/Graph.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { profile } from '../data/profile';
+import { getCollection } from 'astro:content';
+const projects = (await getCollection('projects')).sort((a,b)=>Number(b.data.featured)-Number(a.data.featured)||b.data.year-a.data.year);
+const base = import.meta.env.BASE_URL;
+---
+<Base title="Research & Exploration">
+  <section class="hero wide-section" aria-labelledby="hero-title">
+    <div class="hero-copy reveal">
+      <div class="eyebrow"><span class="eyebrow-line"></span>{profile.eyebrow}</div>
+      <h1 id="hero-title">{profile.headline[0]}<br/><em>{profile.headline[1]}</em></h1>
+      <p class="hero-description">I'm <strong>{profile.fullName}</strong>, an undergraduate researcher exploring the intersection of machine learning, energy systems and materials science.</p>
+      <div class="hero-buttons"><a class="button button-dark" href="#work">Explore my work <span>↗</span></a><a class="text-link" href={`${base}about/`}>More about me <span>↗</span></a></div>
+      <div class="hero-index"><span>BASED IN KHULNA, BANGLADESH</span><span>SCROLL TO EXPLORE ↓</span></div>
+    </div>
+    <Graph />
+  </section>
+  <section class="ticker" aria-label="Areas of interest"><div class="ticker-inner"><span>MATERIALS DISCOVERY</span><b>✳</b><span>GRAPH NEURAL NETWORKS</span><b>✳</b><span>AI FOR SCIENCE</span><b>✳</b><span>MOLECULAR ML</span><b>✳</b><span>DENSITY FUNCTIONAL THEORY</span></div></section>
+  <section class="section section-intro reveal" id="about"><div class="section-head"><span class="index-label">01 / THE INTRODUCTION</span><span class="section-rule"></span></div><div class="intro-grid"><h2>Curiosity meets<br/><em>computation.</em></h2><div><p>{profile.intro}</p><p>Currently pursuing a {profile.degree} in {profile.department} at {profile.university} ({profile.universityAbbr}). My interests span data-driven materials discovery and the methods that connect atomic structure to meaningful properties.</p><a class="inline-link" href={`${base}about/`}>Read the full story <span>↗</span></a></div></div></section>
+  <section class="section work-section" id="work"><div class="section-head reveal"><span class="index-label">02 / SELECTED WORK</span><span class="section-rule"></span><span class="section-aside">PROJECT ARCHIVE — {String(projects.length).padStart(2,'0')}</span></div><div class="section-title-row reveal"><h2>Made to <em>explore.</em></h2><p>A growing collection of engineering projects, experiments and research exploration.</p></div><div class="project-grid reveal">{projects.map((project,i)=><ProjectCard project={project} index={i} />)}</div><a class="inline-link archive-link" href={`${base}projects/`}>Browse all projects <span>↗</span></a></section>
+  <section class="section interests-section"><div class="section-head reveal"><span class="index-label">03 / RESEARCH DIRECTIONS</span><span class="section-rule"></span></div><div class="interests-grid"><div class="reveal"><h2>Thinking<br/>across <em>scales.</em></h2><p class="interest-intro">From electronic structure and molecular interactions to learned representations and materials properties.</p><div class="small-symbol" aria-hidden="true">✳</div></div><div class="interest-list">{profile.interests.map((item,i)=><div class="interest-item reveal"><span class="interest-count">{String(i+1).padStart(2,'0')}</span><div><h3>{item.title}</h3><p>{item.detail}</p></div><span class="interest-arrow">↗</span></div>)}</div></div></section>
+  <section class="contact-banner reveal"><div class="eyebrow">04 / STAY CONNECTED</div><h2>Let's build <em>what's next.</em></h2><p>{profile.availability}.</p><a class="button button-light" href={profile.links.linktree} target="_blank" rel="noopener noreferrer">Get in touch <span>↗</span></a><div class="contact-decoration" aria-hidden="true">✳</div></section>
+</Base>

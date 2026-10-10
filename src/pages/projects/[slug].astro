@@ -1,0 +1,9 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+export async function getStaticPaths(){const projects=await getCollection('projects'); return projects.map(project=>({params:{slug:project.id},props:{project}}));}
+const {project}=Astro.props;
+const {Content}=await render(project);
+const base=import.meta.env.BASE_URL;
+---
+<Base title={project.data.shortTitle||project.data.title} description={project.data.summary}><article class="detail-page"><a class="back-link" href={`${base}projects/`}>← All projects</a><div class="detail-intro"><span class="index-label">{project.data.type.toUpperCase()} / {project.data.year} / {project.data.status.toUpperCase()}</span><h1>{project.data.title}</h1><p>{project.data.summary}</p><div class="tag-row">{project.data.tags.map(tag=><span class="tag">{tag}</span>)}</div></div>{project.data.image&&<img class="detail-hero-image" src={project.data.image} alt={`Project setup: ${project.data.title}`}/>}<div class="detail-columns"><aside><span class="index-label">PROJECT LINKS</span>{project.data.github&&<a href={project.data.github} target="_blank" rel="noopener noreferrer">Source code ↗</a>}{project.data.report&&<a href={project.data.report} target="_blank" rel="noopener noreferrer">Technical report (PDF) ↗</a>}</aside><div class="prose"><Content /></div></div></article></Base>

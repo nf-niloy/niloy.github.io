@@ -1,0 +1,15 @@
+---
+import type { CollectionEntry } from 'astro:content';
+const { project, index = 0 } = Astro.props as {project: CollectionEntry<'projects'>, index?:number};
+const base = import.meta.env.BASE_URL;
+---
+<a class="project-card" href={`${base}projects/${project.id}/`}>
+  <div class="project-image">
+    {project.data.image ? <img src={project.data.image} alt={`Photograph for ${project.data.shortTitle || project.data.title}`} loading="lazy" /> : <div class="image-placeholder"><span>◇</span>PROJECT / {String(index+1).padStart(2,'0')}</div>}
+    <span class="card-arrow" aria-hidden="true">↗</span>
+  </div>
+  <div class="project-meta"><span>{String(index+1).padStart(2,'0')} / {project.data.type.toUpperCase()}</span><span>{project.data.year} — {project.data.status}</span></div>
+  <h3>{project.data.shortTitle || project.data.title}</h3>
+  <p>{project.data.summary}</p>
+  <div class="tag-row">{project.data.tags.map(t=><span class="tag">{t}</span>)}</div>
+</a>

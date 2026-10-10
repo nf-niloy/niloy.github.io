@@ -1,0 +1,7 @@
+---
+import Base from '../../layouts/Base.astro';
+import {getCollection} from 'astro:content';
+const notes=(await getCollection('notes', ({data})=>!data.draft)).sort((a,b)=>b.data.date.valueOf()-a.data.date.valueOf());
+const base=import.meta.env.BASE_URL;
+---
+<Base title="Notes & Writing"><section class="page-top reveal"><span class="index-label">FIELD NOTES / 02</span><h1>Notes & <em>ideas.</em></h1><p>A space for working notes, reading reflections and scientific ideas in progress.</p></section><section class="section page-section"><div class="section-head"><span class="index-label">WRITING ARCHIVE</span><span class="section-rule"></span></div>{notes.length===0?<div class="empty-state"><span class="large-asterisk">✳</span><h2>Ideas taking shape.</h2><p>There are no published notes yet. Research notes and essays will appear here as they're added.</p></div>:<div class="notes-list">{notes.map(note=><a class="note-item" href={`${base}notes/${note.id}/`}><div><span class="index-label">{note.data.date.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})}</span><h2>{note.data.title}</h2><p>{note.data.description}</p></div><span aria-hidden="true">↗</span></a>)}</div>}</section></Base>
