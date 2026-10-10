@@ -1,28 +1,38 @@
 <div class="graph-stage" aria-label="Interactive rotating crystal lattice inspired by periodic atomic structures">
  <canvas class="crystal-canvas" aria-hidden="true"></canvas>
- <div class="graph-label">STRUCTURE / REPRESENTATION <span>03D</span></div>
- <div class="graph-controls"><span class="graph-hint">DRAG TO ROTATE · SCROLL TO ZOOM</span><button class="graph-motion" type="button" aria-label="Pause lattice rotation">PAUSE II</button><button class="graph-reset" type="button" aria-label="Reset lattice view">RESET ↺</button></div>
+ <div class="graph-label">CRYSTAL LATTICE <span>3D</span></div>
+ <div class="graph-controls"><span class="graph-hint">DRAG TO ROTATE · SHIFT/CTRL + SCROLL TO ZOOM</span><button class="graph-motion" type="button" aria-label="Pause lattice rotation">PAUSE II</button><button class="graph-reset" type="button" aria-label="Reset lattice view">RESET ↺</button></div>
 </div>
 <script>
-const stage=document.querySelector<HTMLElement>('.graph-stage');
-if(stage){
- const canvas=stage.querySelector<HTMLCanvasElement>('canvas')!,ctx=canvas.getContext('2d')!,pause=stage.querySelector<HTMLButtonElement>('.graph-motion')!,reset=stage.querySelector<HTMLButtonElement>('.graph-reset')!;
+for (const stage of document.querySelectorAll<HTMLElement>('.graph-stage')) {
+ const canvas=stage.querySelector<HTMLCanvasElement>('canvas');
+ const pause=stage.querySelector<HTMLButtonElement>('.graph-motion');
+ const reset=stage.querySelector<HTMLButtonElement>('.graph-reset');
+ const ctx=canvas?.getContext('2d');
+ if(!canvas||!pause||!reset||!ctx) continue;
  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
- let running=!reduced,rx=-.35,ry=.6,zoom=1,drag=false,lastX=0,lastY=0,frame=0,visible=true,w=0,h=0;
+ let running=!reduced,rx=-.32,ry=.55,zoom=1,drag=false,lastX=0,lastY=0,frame=0,visible=true,w=0,h=0;
  const points:{x:number,y:number,z:number,kind:number}[]=[];const edges:[number,number][]=[];
  for(let x=-2;x<=2;x++)for(let y=-2;y<=2;y++)for(let z=-1;z<=1;z++){points.push({x,y,z,kind:(x+y+z+15)%4===0?1:0});}
  for(let i=0;i<points.length;i++)for(let j=i+1;j<points.length;j++){const a=points[i],b=points[j];if(Math.abs(a.x-b.x)+Math.abs(a.y-b.y)+Math.abs(a.z-b.z)===1)edges.push([i,j]);}
- function resize(){const rect=stage.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);w=rect.width;h=rect.height;canvas.width=Math.max(1,Math.round(w*d));canvas.height=Math.max(1,Math.round(h*d));ctx.setTransform(d,0,0,d,0,0);render()}
- function project(p:{x:number,y:number,z:number,kind:number}){const cy=Math.cos(ry),sy=Math.sin(ry),cx=Math.cos(rx),sx=Math.sin(rx);const ax=p.x*cy+p.z*sy,az=p.z*cy-p.x*sy,ay=p.y*cx-az*sx,depth=p.y*sx+az*cx;const scale=Math.min(w/7.7,h/6.3)*zoom*(1+depth*.035);return {x:w*.5+ax*scale,y:h*.5+ay*scale,z:depth,kind:p.kind,scale}}
- function render(){ctx.clearRect(0,0,w,h);const ps=points.map(project);ctx.lineWidth=1.1;for(const [a,b] of edges){const p=ps[a],q=ps[b];ctx.strokeStyle=`rgba(174,112,72,${Math.max(.12,Math.min(.52,.33+(p.z+q.z)*.028))})`;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke()}for(const p of [...ps].sort((a,b)=>a.z-b.z)){const r=(p.kind?5.2:3.1)*Math.max(.7,1+p.z*.045);ctx.beginPath();ctx.arc(p.x,p.y,r*2.4,0,Math.PI*2);ctx.fillStyle='rgba(192,112,70,.07)';ctx.fill();ctx.beginPath();ctx.arc(p.x,p.y,r,0,Math.PI*2);ctx.fillStyle=p.kind?'#dba979':'#b67755';ctx.fill();ctx.beginPath();ctx.arc(p.x-r*.25,p.y-r*.25,r*.32,0,Math.PI*2);ctx.fillStyle='#f5e4ce';ctx.fill()}}
- function tick(){if(running&&visible&&!drag){ry+=.0023;render()}frame=requestAnimationFrame(tick)}
- function down(e:PointerEvent){drag=true;lastX=e.clientX;lastY=e.clientY;stage.setPointerCapture(e.pointerId);stage.classList.add('dragging')}
- stage.addEventListener('pointerdown',down);stage.addEventListener('pointermove',e=>{if(!drag)return;ry+=(e.clientX-lastX)*.007;rx+=(e.clientY-lastY)*.007;rx=Math.max(-1.5,Math.min(1.5,rx));lastX=e.clientX;lastY=e.clientY;render()});
- const up=()=>{drag=false;stage.classList.remove('dragging')};stage.addEventListener('pointerup',up);stage.addEventListener('pointercancel',up);
- stage.addEventListener('wheel',e=>{if(!e.shiftKey&&!e.ctrlKey)return;e.preventDefault();zoom=Math.max(.65,Math.min(1.55,zoom-e.deltaY*.001));render()},{passive:false});
- pause.textContent=running?'PAUSE II':'PLAY ▷';pause.addEventListener('click',()=>{running=!running;pause.textContent=running?'PAUSE II':'PLAY ▷';pause.setAttribute('aria-label',running?'Pause lattice rotation':'Resume lattice rotation')});
- reset.addEventListener('click',()=>{rx=-.35;ry=.6;zoom=1;render()});
- new ResizeObserver(resize).observe(stage);new IntersectionObserver(e=>visible=e[0].isIntersecting).observe(stage);resize();tick();
+ function resize(){const rect=stage.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);w=rect.width;h=rect.height;canvas.width=Math.max(1,Math.round(w*d));canvas.height=Math.max(1,Math.round(h*d));ctx.setTransform(d,0,0,d,0,0);render();}
+ function project(p:{x:number,y:number,z:number,kind:number}){const cy=Math.cos(ry),sy=Math.sin(ry),cx=Math.cos(rx),sx=Math.sin(rx);const ax=p.x*cy+p.z*sy,az=p.z*cy-p.x*sy,ay=p.y*cx-az*sx,depth=p.y*sx+az*cx;const scale=Math.min(w/7.7,h/6.3)*zoom*(1+depth*.035);return {x:w*.5+ax*scale,y:h*.5+ay*scale,z:depth,kind:p.kind};}
+ function render(){ctx.clearRect(0,0,w,h);const ps=points.map(project);ctx.lineWidth=1.1;for(const [a,b] of edges){const p=ps[a],q=ps[b];ctx.strokeStyle=`rgba(47, 166, 162, ${Math.max(.12,Math.min(.52,.3+(p.z+q.z)*.028))})`;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();}for(const p of [...ps].sort((a,b)=>a.z-b.z)){const r=(p.kind?5.4:3.2)*Math.max(.72,1+p.z*.045);ctx.beginPath();ctx.arc(p.x,p.y,r*2.55,0,Math.PI*2);ctx.fillStyle='rgba(83, 33, 91, .10)';ctx.fill();ctx.beginPath();ctx.arc(p.x,p.y,r,0,Math.PI*2);ctx.fillStyle=p.kind?'#0b6d70':'#50215a';ctx.fill();ctx.beginPath();ctx.arc(p.x-r*.26,p.y-r*.26,r*.32,0,Math.PI*2);ctx.fillStyle='#f7f1ea';ctx.fill();}}
+ function tick(){if(running&&visible&&!drag){ry+=.0022;render();}frame=requestAnimationFrame(tick);}
+ function down(e:PointerEvent){if((e.target as HTMLElement).closest('button')) return;drag=true;lastX=e.clientX;lastY=e.clientY;stage.setPointerCapture(e.pointerId);stage.classList.add('dragging');}
+ stage.addEventListener('pointerdown',down);
+ stage.addEventListener('pointermove',e=>{if(!drag)return;ry+=(e.clientX-lastX)*.007;rx+=(e.clientY-lastY)*.007;rx=Math.max(-1.5,Math.min(1.5,rx));lastX=e.clientX;lastY=e.clientY;render();});
+ const up=(e?:PointerEvent)=>{drag=false;stage.classList.remove('dragging');if(e && stage.hasPointerCapture(e.pointerId)) stage.releasePointerCapture(e.pointerId);};
+ stage.addEventListener('pointerup',up);stage.addEventListener('pointercancel',up);stage.addEventListener('pointerleave',()=>{drag=false;stage.classList.remove('dragging');});
+ stage.addEventListener('wheel',e=>{if(!e.shiftKey&&!e.ctrlKey)return;e.preventDefault();zoom=Math.max(.65,Math.min(1.55,zoom-e.deltaY*.001));render();},{passive:false});
+ pause.textContent=running?'PAUSE II':'PLAY ▷';
+ pause.addEventListener('pointerdown',e=>e.stopPropagation());
+ reset.addEventListener('pointerdown',e=>e.stopPropagation());
+ pause.addEventListener('click',e=>{e.stopPropagation();running=!running;pause.textContent=running?'PAUSE II':'PLAY ▷';pause.setAttribute('aria-label',running?'Pause lattice rotation':'Resume lattice rotation');});
+ reset.addEventListener('click',e=>{e.stopPropagation();rx=-.32;ry=.55;zoom=1;render();});
+ new ResizeObserver(resize).observe(stage);
+ new IntersectionObserver(e=>visible=e[0]?.isIntersecting ?? true).observe(stage);
+ resize();tick();
  window.addEventListener('pagehide',()=>cancelAnimationFrame(frame),{once:true});
 }
 </script>
