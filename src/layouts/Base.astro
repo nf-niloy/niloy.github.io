@@ -1,5 +1,6 @@
 ---
 import { profile } from '../data/profile';
+import FooterClock from '../components/FooterClock.astro';
 import '../styles.css';
 import 'katex/dist/katex.min.css';
 const { title = 'Research & Exploration', description = profile.intro } = Astro.props;
@@ -61,7 +62,10 @@ const path = (p: string) => `${base}${p.replace(/^\//,'')}`;
     <footer class="site-footer">
       <div><span class="footer-mark">N<span class="brand-accent">.</span></span><p>Curiosity, computation<br />& the materials around us.</p></div>
       <div class="footer-links"><a href={profile.links.github} target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href={profile.links.linktree} target="_blank" rel="noopener noreferrer">Linktree ↗</a>{profile.links.email && <a href={`mailto:${profile.links.email}`}>Email ↗</a>}</div>
-      <div class="footer-end">© {new Date().getFullYear()} {profile.name}<span>Built for exploration.</span></div>
+      <div class="footer-end">
+        <FooterClock />
+        <div class="footer-legal"><span>© {new Date().getFullYear()} {profile.name}</span><span>Built for exploration.</span></div>
+      </div>
     </footer>
   </div>
   <div class="palette-overlay" hidden role="presentation">

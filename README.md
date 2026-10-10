@@ -121,3 +121,15 @@ The complete source ZIP contains no dependencies or generated files. It is struc
 - The navigation opens immediately beneath the top-right hamburger button without jumping back to the start of the document. Tap outside or press Escape to close.
 - Bottom **Get in touch** links to the public Linktree profile in the same tab, avoiding mobile pop-up blocking. The button is also elevated above decorative effects for reliable touch input.
 - Theme toggle, project content, materials explorer and command palette are unchanged.
+
+
+### V6.2 — Dhaka footer clock
+
+The footer includes a compact live digital clock and date using `Asia/Dhaka` (UTC+06:00). The clock uses the browser's built-in `Intl.DateTimeFormat` API, so no external time API or credentials are needed.
+
+- Edit the clock markup/behavior in `src/components/FooterClock.astro`.
+- Edit typography, colours and spacing in the `/* V6.2 */` section at the end of `src/styles.css`.
+- The text uses the same **IBM Plex Mono 10px** sizing as the existing copyright section.
+- On mobile, the footer displays links, clock and copyright in separate, readable rows.
+
+Note: the time is formatted for Dhaka irrespective of the visitor's local timezone. Like other JavaScript clocks it relies on the visitor's device clock being accurate.

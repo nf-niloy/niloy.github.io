@@ -1,0 +1,47 @@
+<section class="footer-clock" data-dhaka-clock aria-label="Current time and date in Dhaka, Bangladesh">
+  <div class="footer-clock-label"><span class="footer-clock-led" aria-hidden="true"></span><span>DHAKA / LOCAL TIME</span></div>
+  <div class="footer-clock-primary">
+    <time class="footer-clock-time" data-clock-time aria-label="Time in Dhaka">--:--:--</time>
+    <span class="footer-clock-zone">UTC +06:00</span>
+  </div>
+  <time class="footer-clock-date" data-clock-date aria-label="Date in Dhaka">-- --- ----</time>
+</section>
+<script>
+  const clock = document.querySelector<HTMLElement>('[data-dhaka-clock]');
+  if (clock) {
+    const timeNode = clock.querySelector<HTMLTimeElement>('[data-clock-time]');
+    const dateNode = clock.querySelector<HTMLTimeElement>('[data-clock-date]');
+    const timeFmt = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Asia/Dhaka',
+      hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23',
+    });
+    const dateFmt = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Asia/Dhaka',
+      weekday: 'short', day: '2-digit', month: 'short', year: 'numeric',
+    });
+    const partsFmt = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Asia/Dhaka', year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23',
+    });
+    function updateDhakaClock() {
+      const now = new Date();
+      const p = Object.fromEntries(partsFmt.formatToParts(now).map(({type, value}) => [type, value]));
+      const isoDate = `${p.year}-${p.month}-${p.day}`;
+      if (timeNode) {
+        timeNode.textContent = timeFmt.format(now);
+        timeNode.dateTime = `${isoDate}T${p.hour}:${p.minute}:${p.second}+06:00`;
+      }
+      if (dateNode) {
+        dateNode.textContent = dateFmt.format(now);
+        dateNode.dateTime = isoDate;
+      }
+    }
+    updateDhakaClock();
+    // The clock is small, so one update per second is sufficient.
+    window.setInterval(updateDhakaClock, 1000);
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) updateDhakaClock();
+    });
+    window.addEventListener('focus', updateDhakaClock);
+  }
+</script>
