@@ -85,3 +85,14 @@ Accessibility: visible focus navigation, mobile menu, responsive pages, alt text
 ## Attribution
 
 The original project repository, setup photograph and report belong to their corresponding project creator. Google Fonts are fetched from Google's font CDN; the site otherwise does not require a backend, database or API key.
+
+
+## Version 2 — Copper / Ivory redesign
+
+- Homepage features the ongoing undergraduate thesis with **only** its title, short summary, keywords, status and supervisor. The private thesis PDF is **not** published.
+- Edit thesis details in `src/content/projects/reliability-aware-perovskite-thesis.md`.
+- Theme colors and interactions are in `src/styles.css`; light/dark mode continues to work.
+- New responsive research constellation and improved pointer-reactive crystal graph. Both respect reduced-motion settings.
+- Existing finished battery-management project and its external links are preserved.
+
+To replace a previous installation, extract this ZIP and copy the **contents of `niloy-research-site-v2`** into your existing `D:\niloy-research-site` folder, replacing older files. Keep your `.git` folder; do not copy `.git` from elsewhere. Then run `npm install`, `npm run build`, `git add .`, `git commit -m "Redesign portfolio and add thesis"`, `git push`.

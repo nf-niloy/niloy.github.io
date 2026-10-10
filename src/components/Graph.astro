@@ -26,12 +26,12 @@
     const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let tx=0,ty=0,mx=0,my=0,frame=0,visible=true;
     const setPositions=(time:number)=>{
-      const positions=points.map(([x,y],i)=>[x+(reduced?0:Math.sin(time*.00036+i*2.1)*(i%3+2)+mx*(.025+(i%4)*.009)), y+(reduced?0:Math.cos(time*.00046+i*1.7)*(i%4+2)+my*(.025+(i%3)*.009))]);
+      const positions=points.map(([x,y],i)=>[x+(reduced?0:Math.sin(time*.00036+i*2.1)*(i%3+2)+mx*(.036+(i%4)*.011)), y+(reduced?0:Math.cos(time*.00046+i*1.7)*(i%4+2)+my*(.036+(i%3)*.011))]);
       edgeEls.forEach(({el,a,b})=>{el.setAttribute('x1',String(positions[a][0]));el.setAttribute('y1',String(positions[a][1]));el.setAttribute('x2',String(positions[b][0]));el.setAttribute('y2',String(positions[b][1]));});
       nodeEls.forEach((el,i)=>el.setAttribute('transform',`translate(${positions[i][0]} ${positions[i][1]})`));
     };
     const draw=(t:number)=>{mx+=(tx-mx)*.045;my+=(ty-my)*.045;setPositions(t);if(!reduced && visible)frame=requestAnimationFrame(draw);};
-    svg.addEventListener('pointermove',event=>{const rect=svg.getBoundingClientRect();tx=((event.clientX-rect.left)/rect.width-.5)*90;ty=((event.clientY-rect.top)/rect.height-.5)*90;});
+    svg.addEventListener('pointermove',event=>{const rect=svg.getBoundingClientRect();tx=((event.clientX-rect.left)/rect.width-.5)*145;ty=((event.clientY-rect.top)/rect.height-.5)*145;});
     svg.addEventListener('pointerleave',()=>{tx=0;ty=0;});
     document.addEventListener('visibilitychange',()=>{visible=!document.hidden;if(visible&&!reduced)frame=requestAnimationFrame(draw);else cancelAnimationFrame(frame);});
     if(reduced)setPositions(0);else frame=requestAnimationFrame(draw);

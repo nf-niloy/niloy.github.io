@@ -5,7 +5,7 @@ const projects = defineCollection({
   schema: z.object({
     title: z.string(), shortTitle: z.string().optional(), year: z.number(), status: z.enum(['Completed','Ongoing','Planned']),
     type: z.string().default('Project'), summary: z.string(), tags: z.array(z.string()).default([]),
-    image: z.string().optional(), github: z.string().url().optional(), report: z.string().url().optional(), featured: z.boolean().default(false)
+    image: z.string().optional(), github: z.string().url().optional(), report: z.string().url().optional(), featured: z.boolean().default(false), supervisor: z.string().optional()
   })
 });
 const notes = defineCollection({
