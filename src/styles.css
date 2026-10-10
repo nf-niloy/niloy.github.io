@@ -382,3 +382,122 @@ button,[role="tab"]{touch-action:manipulation}
   .site-footer{padding-top:46px;padding-bottom:32px;gap:28px}
   .footer-clock-primary{gap:14px}
 }
+
+
+/* V6.3 — cohesive, centered, two-tier footer. No detached middle column. */
+.site-footer {
+  display:block;
+  padding:0 6%;
+  border-top:1px solid var(--line);
+}
+.footer-inner {
+  width:min(100%,1120px);
+  margin:0 auto;
+  padding:46px 0 25px;
+}
+.footer-primary {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;
+  gap:36px;
+  padding-bottom:34px;
+}
+.footer-identity {
+  display:flex;
+  align-items:center;
+  gap:22px;
+  min-width:0;
+}
+.footer-mark {
+  flex:0 0 auto;
+  font:800 50px/1 'Plus Jakarta Sans',sans-serif;
+  letter-spacing:-.13em;
+}
+.footer-identity p {
+  margin:0;
+  font-size:13px;
+  line-height:1.75;
+  color:var(--muted);
+}
+.footer-primary .footer-clock {
+  justify-items:end;
+  gap:5px;
+  text-align:right;
+  font:500 10px/1.6 'IBM Plex Mono',monospace;
+  letter-spacing:.065em;
+  font-variant-numeric:tabular-nums;
+}
+.footer-clock-primary { gap:10px; }
+.footer-clock-date { letter-spacing:.055em; }
+.footer-bottom {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:14px 28px;
+  border-top:1px solid var(--line);
+  padding-top:21px;
+}
+.footer-bottom .footer-links {
+  display:flex;
+  align-items:center;
+  flex-flow:row wrap;
+  gap:15px 25px;
+  font-size:12px;
+  font-weight:600;
+}
+.footer-bottom .footer-links a,
+.footer-mark { transition:color .2s ease; }
+.footer-bottom .footer-links a:hover,
+.footer-bottom .footer-links a:focus-visible,
+.footer-mark:hover { color:var(--accent); }
+.footer-bottom .footer-legal {
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:9px;
+  border:0;
+  padding:0;
+  min-width:0;
+  color:var(--muted);
+  font:500 10px/1.6 'IBM Plex Mono',monospace;
+  letter-spacing:.06em;
+  white-space:normal;
+  text-align:right;
+}
+.footer-legal-dot { opacity:.55; }
+@media (max-width:760px) {
+  .site-footer { padding:0 5%; }
+  .footer-inner { padding:34px 0 24px; }
+  .footer-primary {
+    grid-template-columns:minmax(0,1fr);
+    align-items:start;
+    gap:23px;
+    padding-bottom:25px;
+  }
+  .footer-identity { gap:18px; }
+  .footer-mark { font-size:43px; }
+  .footer-identity p { font-size:12px; }
+  .footer-primary .footer-clock {
+    justify-items:start;
+    text-align:left;
+    gap:5px;
+  }
+  .footer-clock-primary { justify-content:flex-start; }
+  .footer-bottom {
+    align-items:flex-start;
+    flex-direction:column;
+    gap:16px;
+    padding-top:19px;
+  }
+  .footer-bottom .footer-legal {
+    text-align:left;
+    flex-wrap:wrap;
+    gap:5px 9px;
+  }
+}
+@media (max-width:350px) {
+  .footer-clock-primary { gap:6px; }
+  .footer-bottom .footer-links { gap:12px 18px; }
+  .footer-identity p { font-size:11.5px; }
+}

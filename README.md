@@ -133,3 +133,8 @@ The footer includes a compact live digital clock and date using `Asia/Dhaka` (UT
 - On mobile, the footer displays links, clock and copyright in separate, readable rows.
 
 Note: the time is formatted for Dhaka irrespective of the visitor's local timezone. Like other JavaScript clocks it relies on the visitor's device clock being accurate.
+
+
+### V6.3 Footer layout
+
+The footer now has a centered two-tier layout. The first row groups the logo and tagline and shows a compact live Dhaka clock; the second row groups social links and copyright. On mobile the elements stack neatly. No other pages or content were changed.
