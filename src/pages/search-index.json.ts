@@ -1,0 +1,2 @@
+import { getCollection } from 'astro:content';
+export async function GET(){const projects=await getCollection('projects'),notes=await getCollection('notes',({data})=>!data.draft);const base=import.meta.env.BASE_URL;return new Response(JSON.stringify([...projects.map(p=>({title:p.data.shortTitle||p.data.title,subtitle:p.data.type+' · '+p.data.status,url:`${base}projects/${p.id}/`})),...notes.map(n=>({title:n.data.title,subtitle:'Research note · '+n.data.tags.join(', '),url:`${base}notes/${n.id}/`}))]),{headers:{'Content-Type':'application/json'}})}

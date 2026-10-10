@@ -96,3 +96,15 @@ The original project repository, setup photograph and report belong to their cor
 - Existing finished battery-management project and its external links are preserved.
 
 To replace a previous installation, extract this ZIP and copy the **contents of `niloy-research-site-v2`** into your existing `D:\niloy-research-site` folder, replacing older files. Keep your `.git` folder; do not copy `.git` from elsewhere. Then run `npm install`, `npm run build`, `git add .`, `git commit -m "Redesign portfolio and add thesis"`, `git push`.
+
+
+## Version 3 additions
+
+- Interactive lattice: mouse/touch drag to rotate, pause/play, reset, Shift + scroll to zoom. Reduced-motion preferences stop automatic rotation. (`src/components/Graph.astro`)
+- Academic timeline: verified 2025 and 2026–2027 entries (`src/pages/index.astro`).
+- Command palette: press **Ctrl+K** (Windows/Linux) or **Cmd+K** (Mac), or click the search button. Search pages, projects, and published notes.
+- Research notes: add a Markdown file in `src/content/notes/` with frontmatter (`title`, `date`, `description`, `tags`, `draft: false`). Search and tag-filter UI is automatically generated.
+- Thesis PDF and detailed research methodology are **not** published.
+- Styling: warm copper and ivory; themes retained.
+
+**Important:** Always test with `npm install` and `npm run build` where possible. GitHub Actions also builds automatically on push.
