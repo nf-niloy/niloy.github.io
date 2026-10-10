@@ -1,0 +1,77 @@
+<section class="section explorer-section" id="materials-explorer" aria-labelledby="explorer-heading">
+  <div class="section-head reveal"><span class="index-label">05 / INTERACTIVE MATERIALS EXPLORER</span><span class="section-rule"></span><span class="section-aside">STRUCTURE → LEARNING</span></div>
+  <div class="explorer-layout">
+    <div class="explorer-description reveal">
+      <span class="eyebrow"><span class="eyebrow-line"></span> A VIEW INTO MATERIALS ML</span>
+      <h2 id="explorer-heading">Matter, seen <em>differently.</em></h2>
+      <p>There are many ways to describe a material. Explore how an atomic arrangement can become a graph, and how that graph can be represented by learned features.</p>
+      <p class="explorer-disclaimer">An interactive illustration of concepts used in materials informatics—not a prediction or a simulation of a specific compound.</p>
+      <div class="explorer-legend"><span><i class="legend-dot"></i> Atom / site</span><span><i class="legend-line"></i> Neighbour relation</span></div>
+    </div>
+    <div class="explorer-panel reveal" data-explorer>
+      <div class="explorer-toolbar"><span class="index-label">INTERACTIVE / FIGURE 01</span><span class="explorer-live" aria-live="polite">CRYSTAL STRUCTURE</span></div>
+      <div class="explorer-visual"><canvas class="explorer-canvas" role="img" aria-label="Schematic visualization of a lattice that can be switched into a graph or learned representation"></canvas><span class="explorer-watermark" aria-hidden="true">N / 06</span></div>
+      <div class="explorer-tabs" role="tablist" aria-label="Materials representation view">
+        <button type="button" role="tab" class="explorer-tab" aria-selected="true" data-view="crystal"><span>01</span> Crystal</button>
+        <button type="button" role="tab" class="explorer-tab" aria-selected="false" data-view="graph"><span>02</span> Graph</button>
+        <button type="button" role="tab" class="explorer-tab" aria-selected="false" data-view="features"><span>03</span> Representation</button>
+      </div>
+      <div class="explorer-caption"><p class="explorer-explanation" aria-live="polite">Atomic positions in a periodic arrangement. Drag to inspect the schematic structure.</p><span class="explorer-gesture">DRAG / ROTATE</span></div>
+    </div>
+  </div>
+</section>
+<script>
+  type View='crystal'|'graph'|'features';
+  const descriptions:Record<View,string>={
+    crystal:'Atomic positions in a periodic arrangement. Drag to inspect the schematic structure.',
+    graph:'Atoms become nodes, and nearby interactions become edges. This is an illustrative graph, not a generated crystal graph.',
+    features:'A schematic feature vector representing information a graph model might learn—not measured material properties.'
+  };
+  const labels:Record<View,string>={crystal:'CRYSTAL STRUCTURE',graph:'ATOMIC GRAPH',features:'LATENT REPRESENTATION'};
+  for(const root of document.querySelectorAll<HTMLElement>('[data-explorer]')){
+    const canvas=root.querySelector<HTMLCanvasElement>('.explorer-canvas');
+    const ctx=canvas?.getContext('2d');
+    if(!canvas||!ctx) continue;
+    let view:View='crystal',w=500,h=350,angle=.57,tilt=.3,dragging=false,px=0,py=0,visible=true,frame=0,t=0;
+    const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const nodes:{x:number;y:number;z:number;k:number}[]=[];
+    for(let x=-1;x<=1;x++)for(let y=-1;y<=1;y++)for(let z=-1;z<=1;z++)nodes.push({x,y,z,k:(x+y+z+9)%3});
+    const edges:[number,number][]=[];
+    for(let a=0;a<nodes.length;a++)for(let b=a+1;b<nodes.length;b++){
+      const p=nodes[a],q=nodes[b];if(Math.abs(p.x-q.x)+Math.abs(p.y-q.y)+Math.abs(p.z-q.z)===1)edges.push([a,b]);
+    }
+    function palette(){const s=getComputedStyle(document.documentElement);return {accent:s.getPropertyValue('--accent').trim()||'#0b6d70',violet:s.getPropertyValue('--accent-tertiary').trim()||'#53215b',ink:s.getPropertyValue('--ink').trim()||'#1c2230',line:s.getPropertyValue('--line').trim()||'#d9dde7',muted:s.getPropertyValue('--muted').trim()||'#5f6879'};}
+    function resize(){const rect=canvas!.getBoundingClientRect();w=Math.max(1,rect.width);h=Math.max(1,rect.height);const d=Math.min(window.devicePixelRatio||1,2);canvas!.width=Math.round(w*d);canvas!.height=Math.round(h*d);ctx!.setTransform(d,0,0,d,0,0);draw();}
+    function draw(){const c=palette();ctx!.clearRect(0,0,w,h);const cx=w/2,cy=h/2;
+      ctx!.strokeStyle=c.line;ctx!.lineWidth=.75;
+      for(let i=1;i<7;i++){const y=h*i/7;ctx!.beginPath();ctx!.moveTo(0,y);ctx!.lineTo(w,y);ctx!.stroke();}
+      if(view==='features'){
+        const values=[.31,.67,.42,.86,.54,.26,.74,.58,.95,.38,.62,.48,.81,.2,.56,.7];
+        const gap=Math.min(9,w/55);const bw=Math.min(24,(w-74-(values.length-1)*gap)/values.length);const total=values.length*bw+(values.length-1)*gap;const start=(w-total)/2;
+        values.forEach((v,i)=>{const x=start+i*(bw+gap),height=v*(h*.57);ctx!.fillStyle=i%4===0?c.violet:c.accent;ctx!.globalAlpha=.28+v*.55;ctx!.fillRect(x,cy+h*.25-height,bw,height);ctx!.globalAlpha=1;});
+        ctx!.fillStyle=c.muted;ctx!.font='10px monospace';ctx!.textAlign='center';ctx!.fillText('ILLUSTRATIVE FEATURE DIMENSIONS',cx,h-22);return;
+      }
+      const positions=nodes.map((p,i)=>{
+        if(view==='graph') {const a=(i/27)*Math.PI*2;const ring=80+(i%4)*12;return {x:cx+Math.cos(a)*Math.min(ring,w*.35),y:cy+Math.sin(a)*Math.min(ring,h*.33),depth:0,k:p.k};}
+        const cos=Math.cos(angle),sin=Math.sin(angle),ct=Math.cos(tilt),st=Math.sin(tilt),xx=p.x*cos+p.z*sin,zz=p.z*cos-p.x*sin,yy=p.y*ct-zz*st,depth=p.y*st+zz*ct;
+        const scale=Math.min(w/5.7,h/4.6);return{x:cx+xx*scale,y:cy+yy*scale,depth,k:p.k};
+      });
+      for(const [a,b] of edges){const p=positions[a],q=positions[b];ctx!.strokeStyle=c.accent;ctx!.globalAlpha=view==='graph'?.22:.34;ctx!.lineWidth=view==='graph'?1.2:1.1;ctx!.beginPath();ctx!.moveTo(p.x,p.y);ctx!.lineTo(q.x,q.y);ctx!.stroke();}ctx!.globalAlpha=1;
+      for(const p of positions.sort((a,b)=>a.depth-b.depth)){const r=(view==='graph'?4:4.7)+(p.k===0?2.5:0)+(view==='crystal'?p.depth*.35:0);ctx!.fillStyle=p.k===0?c.violet:c.accent;ctx!.globalAlpha=.1;ctx!.beginPath();ctx!.arc(p.x,p.y,r*2.5,0,Math.PI*2);ctx!.fill();ctx!.globalAlpha=.95;ctx!.beginPath();ctx!.arc(p.x,p.y,r,0,Math.PI*2);ctx!.fill();}ctx!.globalAlpha=1;
+    }
+    function animate(){if(!reduced&&visible&&!dragging&&view==='crystal'){angle+=.0011;t++;draw();}frame=requestAnimationFrame(animate);}
+    const visual=root.querySelector<HTMLElement>('.explorer-visual')!;
+    visual.addEventListener('pointerdown',e=>{if(view!=='crystal')return;dragging=true;px=e.clientX;py=e.clientY;visual.setPointerCapture(e.pointerId);visual.classList.add('is-dragging');});
+    visual.addEventListener('pointermove',e=>{if(!dragging)return;angle+=(e.clientX-px)*.008;tilt=Math.max(-1.3,Math.min(1.3,tilt+(e.clientY-py)*.008));px=e.clientX;py=e.clientY;draw();});
+    const end=(e:PointerEvent)=>{dragging=false;visual.classList.remove('is-dragging');if(visual.hasPointerCapture(e.pointerId))visual.releasePointerCapture(e.pointerId);};visual.addEventListener('pointerup',end);visual.addEventListener('pointercancel',end);
+    const tabs=[...root.querySelectorAll<HTMLButtonElement>('.explorer-tab')];
+    const setView=(next:View)=>{view=next;tabs.forEach(btn=>btn.setAttribute('aria-selected',String(btn.dataset.view===view)));root.querySelector<HTMLElement>('.explorer-explanation')!.textContent=descriptions[view];root.querySelector<HTMLElement>('.explorer-live')!.textContent=labels[view];root.querySelector<HTMLElement>('.explorer-gesture')!.textContent=view==='crystal'?'DRAG / ROTATE':'SELECT A VIEW';draw();};
+    tabs.forEach((tab,i)=>{tab.addEventListener('click',()=>setView(tab.dataset.view as View));tab.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();const next=tabs[(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length];next.focus();setView(next.dataset.view as View);}})});
+    new ResizeObserver(resize).observe(visual);
+    if('IntersectionObserver' in window)new IntersectionObserver(e=>visible=e[0]?.isIntersecting??true).observe(root);
+    document.addEventListener('visibilitychange',()=>{visible=!document.hidden;});
+    new MutationObserver(draw).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+    resize();if(!reduced)frame=requestAnimationFrame(animate);
+    window.addEventListener('pagehide',()=>cancelAnimationFrame(frame),{once:true});
+  }
+</script>

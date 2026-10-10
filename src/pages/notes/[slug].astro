@@ -2,6 +2,37 @@
 import Base from '../../layouts/Base.astro';
 import {getCollection,render} from 'astro:content';
 export async function getStaticPaths(){return (await getCollection('notes',({data})=>!data.draft)).map(note=>({params:{slug:note.id},props:{note}}));}
-const {note}=Astro.props;const {Content}=await render(note);const base=import.meta.env.BASE_URL;
+const {note}=Astro.props;
+const {Content,headings}=await render(note);
+const base=import.meta.env.BASE_URL;
+const words=String(note.body??'').trim().split(/\s+/).filter(Boolean).length;
+const minutes=Math.max(1,Math.ceil(words/220));
 ---
-<Base title={note.data.title} description={note.data.description}><article class="detail-page note-detail"><a class="back-link" href={`${base}notes/`}>← All notes</a><div class="detail-intro"><span class="index-label">FIELD NOTE / {note.data.date.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}</span><h1>{note.data.title}</h1><p>{note.data.description}</p></div><div class="prose note-prose"><Content/></div></article></Base>
+<Base title={note.data.title} description={note.data.description}>
+  <div class="note-progress" aria-hidden="true"><span></span></div>
+  <article class="detail-page note-detail note-reader">
+    <a class="back-link" href={`${base}notes/`}>← Research notes</a>
+    <header class="note-hero detail-intro">
+      <span class="index-label">RESEARCH NOTE / {note.data.date.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}</span>
+      <h1>{note.data.title}</h1><p>{note.data.description}</p>
+      <div class="note-meta"><span>{minutes} MIN READ</span><span>{words} WORDS</span>{note.data.tags.map(tag=><span class="tag">{tag}</span>)}</div>
+    </header>
+    <div class="reading-layout">
+      <aside class="reading-aside"><div class="reading-aside-inner"><span class="index-label">IN THIS NOTE</span>
+        {headings.filter(h=>h.depth<=3).length? <nav aria-label="Note table of contents">{headings.filter(h=>h.depth<=3).map(h=><a class:list={['reading-link',{'reading-sub':h.depth===3}]} href={`#${h.slug}`}>{h.text}</a>)}</nav> : <p class="reader-aside-hint">Short research note</p>}
+        <a class="reading-all" href={`${base}notes/`}>All notes ↗</a>
+      </div></aside>
+      <div class="prose note-prose expressive-prose"><Content/></div>
+    </div>
+    <footer class="reading-footer"><span>END OF NOTE</span><a href={`${base}notes/`}>Back to notes ↗</a></footer>
+  </article>
+</Base>
+<script>
+  const progress=document.querySelector<HTMLElement>('.note-progress span');
+  const update=()=>{if(!progress)return;const total=document.documentElement.scrollHeight-innerHeight;progress.style.transform=`scaleX(${total>0?Math.max(0,Math.min(1,scrollY/total)):1})`;};
+  addEventListener('scroll',update,{passive:true});update();
+  document.querySelectorAll<HTMLElement>('.expressive-prose pre').forEach(pre=>{
+    const copy=document.createElement('button');copy.type='button';copy.className='copy-code';copy.textContent='Copy';copy.setAttribute('aria-label','Copy code block');pre.append(copy);
+    copy.addEventListener('click',async()=>{const code=pre.querySelector('code')?.textContent||'';try{await navigator.clipboard.writeText(code);copy.textContent='Copied';setTimeout(()=>copy.textContent='Copy',1400);}catch{copy.textContent='Select code';}});
+  });
+</script>

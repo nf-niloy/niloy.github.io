@@ -1,9 +1,35 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getCollection, render } from 'astro:content';
-export async function getStaticPaths(){const projects=await getCollection('projects'); return projects.map(project=>({params:{slug:project.id},props:{project}}));}
+export async function getStaticPaths(){const projects=await getCollection('projects');return projects.map(project=>({params:{slug:project.id},props:{project}}));}
 const {project}=Astro.props;
-const {Content}=await render(project);
+const {Content,headings}=await render(project);
 const base=import.meta.env.BASE_URL;
+const isThesis=project.data.type==='Undergraduate Thesis';
 ---
-<Base title={project.data.shortTitle||project.data.title} description={project.data.summary}><article class="detail-page"><a class="back-link" href={`${base}projects/`}>← All projects</a><div class="detail-intro"><span class="index-label">{project.data.type.toUpperCase()} / {project.data.year} / {project.data.status.toUpperCase()}</span><h1>{project.data.title}</h1><p>{project.data.summary}</p><div class="tag-row">{project.data.tags.map(tag=><span class="tag">{tag}</span>)}</div>{project.data.supervisor && <p class="thesis-supervisor">Supervisor: {project.data.supervisor}</p>}</div>{project.data.image&&<img class="detail-hero-image" src={project.data.image} alt={`Project setup: ${project.data.title}`}/>}<div class="detail-columns"><aside><span class="index-label">PROJECT LINKS</span>{project.data.github&&<a href={project.data.github} target="_blank" rel="noopener noreferrer">Source code ↗</a>}{project.data.report&&<a href={project.data.report} target="_blank" rel="noopener noreferrer">Technical report (PDF) ↗</a>}</aside><div class="prose"><Content /></div></div></article></Base>
+<Base title={project.data.shortTitle||project.data.title} description={project.data.summary}>
+  <article class="detail-page case-study">
+    <a class="back-link" href={`${base}projects/`}>← All projects</a>
+    <header class="case-hero">
+      <div class="case-kicker"><span class="index-label">{isThesis?'ONGOING RESEARCH':'SELECTED ENGINEERING WORK'} / {project.data.year}</span><span class="case-status">{project.data.status}</span></div>
+      <h1>{project.data.title}</h1>
+      <p class="case-lead">{project.data.summary}</p>
+      <div class="tag-row">{project.data.tags.map(tag=><span class="tag">{tag}</span>)}</div>
+      {project.data.supervisor&&<p class="case-supervisor">Supervisor: {project.data.supervisor}</p>}
+    </header>
+    {project.data.image&&<section class="case-visual" aria-label="Project photograph"><a href={project.data.image} target="_blank" rel="noopener noreferrer" title="Open full-resolution photograph"><img src={project.data.image} alt={`Physical setup photograph for ${project.data.shortTitle||project.data.title}`} loading="eager"/><span class="case-visual-action">VIEW ORIGINAL ↗</span></a><p>01 / PROJECT DOCUMENTATION — PHYSICAL SETUP</p></section>}
+    <div class="case-overview">
+      <aside class="case-sidebar" aria-label="Project information">
+        <div class="case-fact"><span>STATUS</span><p>{project.data.status}</p></div>
+        <div class="case-fact"><span>YEAR</span><p>{project.data.year}</p></div>
+        <div class="case-fact"><span>CATEGORY</span><p>{project.data.type}</p></div>
+        {!isThesis&&(project.data.github||project.data.report)&&<div class="case-actions"><span class="index-label">PROJECT RESOURCES</span>{project.data.github&&<a href={project.data.github} target="_blank" rel="noopener noreferrer">Source repository <span>↗</span></a>}{project.data.report&&<a href={project.data.report} target="_blank" rel="noopener noreferrer">Technical report (PDF) <span>↗</span></a>}</div>}
+      </aside>
+      <div class="case-body">
+        {headings.length>0&&<nav class="case-outline" aria-label="On this page"><span class="index-label">IN THIS CASE STUDY</span>{headings.filter(h=>h.depth===2).map(h=><a href={`#${h.slug}`}>{h.text} ↗</a>)}</nav>}
+        <div class="prose"><Content /></div>
+      </div>
+    </div>
+    {project.data.github&&!isThesis&&<div class="case-endnote"><div><span class="index-label">EXPLORE THE IMPLEMENTATION</span><h2>From idea to <em>working system.</em></h2></div><a class="button button-dark" href={project.data.github} target="_blank" rel="noopener noreferrer">View project on GitHub ↗</a></div>}
+  </article>
+</Base>

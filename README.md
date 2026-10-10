@@ -1,84 +1,115 @@
-# Niloy — personal research website (Version 5)
+# Niloy — Research & Exploration (V6)
 
-Static Astro website for **Nafiz Fuad Niloy**, a fourth-year Energy Science and Engineering undergraduate at KUET. The site is configured for `nf-niloy.github.io` on GitHub Pages.
+A GitHub Pages-ready personal academic website for **Nafiz Fuad Niloy**, a fourth-year Energy Science and Engineering undergraduate at Khulna University of Engineering & Technology (KUET).
 
-## What's included
+Designed as an editable Astro website with a Deep Ocean teal-to-plum palette and independently selectable light/dark themes.
 
-- Deep Ocean palette with independent light and dark themes, respecting your saved theme selection.
-- Interactive 3D crystal-lattice hero with pause/reset, drag rotation and reduced-motion support.
-- Lightweight ambient particles and short connecting lines behind every page. They throttle on mobile and stop when the tab is hidden.
-- **About:** four professional icon-led horizontal chips for degree, university, academic field and location.
-- **Projects:** ongoing lead-free-perovskite undergraduate thesis (only title, brief summary, keywords, status, supervisor) and completed 2025 battery thermal management project.
-- **Research notes:** Markdown notes library with real-note-only featured article, keyword filters and a designed zero-entry state. No fictional notes are published.
-- **Command palette:** Ctrl+K / Cmd+K, with projects and published notes in the search index.
-- Responsive layouts, plus editorial typography (Plus Jakarta Sans headings, Source Sans 3 reading text, IBM Plex Mono labels).
+## What's new in V6
 
-## Install and preview
+- **Flowing interactive background:** quiet animated contours + sparse particle connections. Pointer-responsive on desktop, lower-density on mobile, disabled by reduced-motion preference.
+- **Interactive Materials Explorer:** switch between a schematic crystal lattice, its illustrative atom graph, and a conceptual feature vector. The crystal view supports drag-to-rotate, keyboard-accessible tabs, and responsive canvas drawing. This is an explanatory visual, **not a numerical simulation or a scientific finding**.
+- **Redesigned project case studies:** editorial title and facts, optional physical-project image with view-original link, project resources, overview and section navigation. Thesis details remain minimal.
+- **Advanced research notebook:** Markdown notes with LaTeX math (remark-math + KaTeX), Astro/Shiki code highlighting, copy-code buttons, heading-based contents, reading-time estimate, reading progress, mobile layouts, reference links and searchable/featured archives. No fictional public notes added.
+- **Hero refinement:** updated headline hierarchy and calmer transitions while preserving the 3D rotating crystal lattice.
+- **Mobile/accessibility:** responsive 375/430/768/1440px-oriented CSS, contrast-consistent light/dark colors, `prefers-reduced-motion`, keyboard focus styles, keyboard-accessible Materials Explorer and performance-aware canvas rendering.
 
-You need Node.js 22 (includes npm). From the folder that contains `package.json`:
+### Real work displayed
 
-```bash
-npm install
-npm run dev
+- **Ongoing undergraduate thesis (2026–27):** *Reliability-Aware Graph Learning for the Discovery of Lead-Free Halide Perovskite Photovoltaic Absorbers.* The website shows only a short description, the Ongoing status, keywords, and supervisor **Md. Mahmodul Alam**, Assistant Professor, Department of Energy Science and Engineering, KUET. It does **not** publish the thesis PDF, detailed methodology, or unpublished results.
+- **Completed 2025 engineering project:** Arduino-Based Intelligent Battery Thermal Management System for Real-Time Monitoring and Multi-Stage Temperature Control. The physical setup image and technical report link point to the existing public repository.
+
+## Local preview
+
+Install [Node.js LTS](https://nodejs.org/) (Node 22 recommended), then:
+
+```powershell
+cd "D:\niloy-research-site"
+npm.cmd install
+npm.cmd run dev
 ```
 
-Open the localhost address Astro prints (typically `http://localhost:4321`). Before deployment run `npm run build`.
+Open the localhost address reported in the terminal. To test production output locally:
 
-## Deploy on GitHub Pages
+```powershell
+npm.cmd run build
+npm.cmd run preview
+```
 
-1. Unzip this project and **copy the contents of `niloy-research-site-v5/`** into your existing local repository folder `D:\niloy-research-site`. The ZIP has no `.git` directory: **preserve your existing `.git` folder**.
-2. Make sure the hidden `.github/workflows/deploy.yml` directory is copied too.
-3. Commit and push:
+You do not need to upload the generated `dist/` or `node_modules/` directories; they are ignored in `.gitignore`.
+
+## Replace V5 with V6 and deploy
+
+1. Back up your existing local website folder if you want to preserve earlier changes.
+2. Extract the ZIP, and **copy the contents inside `niloy-research-site-v6/`** into `D:\niloy-research-site`, replacing files. Preserve the original hidden `.git` directory.
+3. Ensure the hidden `.github/workflows/deploy.yml` workflow was copied too.
+4. Run:
 
 ```powershell
 cd "D:\niloy-research-site"
 git add .
-git commit -m "Refresh website design and content — V5"
+git commit -m "Website V6 — explorer and research notebook"
 git push origin main
 ```
 
-4. In GitHub → Settings → Pages, set **Source: GitHub Actions**. The included workflow builds and deploys the site.
+Then check the GitHub repository's **Actions** tab. The workflow installs dependencies and publishes your site if GitHub Pages' Source is **GitHub Actions**.
 
-Site: <https://nf-niloy.github.io/>
+Your website address is <https://nf-niloy.github.io/>.
 
-## Maintain content without changing components
+## Update site content
 
-| What to change | File / folder |
+| Content or design | File/folder |
 | --- | --- |
-| Name, university, bio, research interests, social links | `src/data/profile.ts` |
-| Projects, including thesis, project metadata and reports | `src/content/projects/*.md` |
-| Research notes | `src/content/notes/*.md` |
-| Main page headings and sections | `src/pages/index.astro` |
-| About page icon chips | `src/pages/about/index.astro` |
-| Color variables and layouts | `src/styles.css` |
-| Hero crystal lattice | `src/components/Graph.astro` |
-| Ambient particles and lines | `src/scripts/ambient.ts` |
-| Navigation/theme/command palette | `src/layouts/Base.astro` |
+| Name, headline, bio, research interests, links | `src/data/profile.ts` |
+| Add or edit a project / thesis metadata | `src/content/projects/*.md` |
+| Add a research note | `src/content/notes/*.md` |
+| Research notebook authoring guide and draft template | `src/content/notes/README.md` |
+| Main page layout | `src/pages/index.astro` |
+| Materials Explorer | `src/components/MaterialsExplorer.astro` |
+| Crystal hero model and controls | `src/components/Graph.astro` |
+| Animated ambient contours and particles | `src/scripts/ambient.ts` |
+| Project detail view | `src/pages/projects/[slug].astro` |
+| Note detail / code-copy / reading progress | `src/pages/notes/[slug].astro` |
+| Global styling and mobile breakpoints | `src/styles.css` |
+| Theme switcher and `Ctrl + K` command palette | `src/layouts/Base.astro` |
 
-### Publish a note
+### Write a note
 
-Add `src/content/notes/my-research-note.md`:
+Create `src/content/notes/your-note-slug.md`:
 
-```md
+~~~~md
 ---
-title: "A reading note on crystal graph networks"
+title: "Your actual note title"
 date: 2026-10-10
-description: "Some observations from a paper I studied."
-tags: ["GNN", "Materials"]
-draft: false
+description: "Brief real summary."
+tags: ["Materials", "GNN"]
+draft: true
 ---
 
-Your actual note goes here.
+## Background
+
+Write your real observations here. Inline math: $E_g$.
+
+$$
+E_g = E_{\mathrm{CBM}} - E_{\mathrm{VBM}}
+$$
+
+```python
+print('Hello, notebook!')
 ```
 
-The example above is documentation only; it is **not published**. To hide an unfinished note, set `draft: true`.
+## References
 
-### Reports and PDF files
+- Add a verified DOI or source URL.
+~~~~
 
-PDFs can be placed under `public/reports/` and linked from a project. The battery project's report points directly to its existing GitHub repository. The undergraduate thesis PDF is deliberately not included or published.
+**Important:** That inner markdown code fencing is a conceptual example; if your Markdown editor has trouble with nesting, use the ready-made template `src/content/notes/_note-template.example` and copy it to a `.md` filename. Set `draft: false` only when you want to publish.
 
-## Accessibility and performance
+Markdown notes use `remark-math`/`rehype-katex` + `katex` for math, Astro/Shiki for code. No paid CMS or backend is required. Images may go under `public/images/` and be linked using `/images/filename.png`.
 
-The ambient animation and automatic lattice rotation honor `prefers-reduced-motion`. The ambient canvas is decorative and doesn't capture clicks. Lattice controls can be used without dragging. The site avoids a backend and is suitable for static hosting.
+## Color, accessibility and performance
 
-**Build status:** The source is packaged and scripts are statically checked; a complete Astro production build was not verified in this environment because npm dependency installation timed out. The GitHub Actions deployment will run the full build after you push.
+The palette is centralized in CSS custom properties in `src/styles.css`. Both themes use distinct backgrounds and text colors; browser toolbar colors follow the selected theme. Decorative canvas animations are noninteractive and respect reduced-motion preferences. The hero and Materials Explorer have separate accessible controls, and native page scrolling remains possible on mobile.
+
+## Validation status
+
+The complete source ZIP contains no dependencies or generated files. It is structured for Astro 5 and GitHub Pages. If installation cannot access npm in the current environment, a full local production build cannot be certified; GitHub Actions will provide the definitive build result after you push. Inspect its logs for errors.

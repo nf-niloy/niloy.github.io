@@ -1,0 +1,29 @@
+---
+title: "Replace with your real research note"
+date: 2026-10-10
+description: "Short factual overview of your research note."
+tags: ["Materials", "Machine learning"]
+draft: true
+---
+
+## Context
+
+Describe what you read or investigated. This template is NOT a published note.
+
+## Notes
+
+Inline math, such as $E_g$, and display math can be used:
+
+$$
+E_g = E_{\mathrm{CBM}} - E_{\mathrm{VBM}}
+$$
+
+```python
+# A minimal example; replace with working code that you actually used.
+values = [1.0, 2.0, 3.0]
+print(sum(values) / len(values))
+```
+
+## References
+
+1. Add a real paper citation and DOI or URL here.

@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Graph from '../components/Graph.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import MaterialsExplorer from '../components/MaterialsExplorer.astro';
 import { profile } from '../data/profile';
 import { getCollection } from 'astro:content';
 const projects = (await getCollection('projects')).sort((a,b)=>Number(b.data.featured)-Number(a.data.featured)||b.data.year-a.data.year);
@@ -35,16 +36,17 @@ const otherProjects = projects.filter(p => p.id !== thesis?.id);
     <div class="section-head"><span class="index-label">RESEARCH CONSTELLATION</span><span class="section-rule"></span></div>
     <div class="research-map"><div><h2>Connected by <em>curiosity.</em></h2><p class="map-caption">The questions I explore connect machine learning, atomic structure, and energy materials. Explore the constellation to see how these interests intersect.</p><p id="research-map-detail" class="map-active-detail" aria-live="polite">Select a node to explore a research direction.</p></div><div class="research-map-canvas"><svg id="research-constellation" viewBox="0 0 500 360" role="group" aria-label="Interactive map of research interests"><g id="constellation-links"></g><g id="constellation-nodes"></g></svg></div></div>
   </section>
+  <MaterialsExplorer />
   <section class="section academic-timeline" id="timeline" aria-labelledby="timeline-heading">
-    <div class="section-head reveal"><span class="index-label">05 / ACADEMIC TIMELINE</span><span class="section-rule"></span></div>
+    <div class="section-head reveal"><span class="index-label">06 / ACADEMIC TIMELINE</span><span class="section-rule"></span></div>
     <h2 id="timeline-heading" class="reveal">Work in <em>progress.</em></h2>
     <div class="timeline-list">
       <article class="timeline-entry reveal"><span class="timeline-date">2026 — 2027 · ONGOING</span><h3>Undergraduate thesis · Reliability-Aware Graph Learning</h3><p>Exploring reliability-aware crystal graph learning for lead-free halide perovskite photovoltaic absorbers. Supervised by Md. Mahmodul Alam at KUET.</p></article>
       <article class="timeline-entry reveal"><span class="timeline-date">2025 · COMPLETED</span><h3>Intelligent Battery Thermal Management System</h3><p>Arduino-based real-time temperature monitoring, multi-stage thermal protection, automated cooling and emergency disconnection.</p></article>
     </div>
   </section>
-  <section class="section notes-preview reveal"><div class="section-head"><span class="index-label">06 / FIELD NOTES</span><span class="section-rule"></span></div><h2>Ideas worth <em>writing down.</em></h2><p class="map-caption">A growing collection of technical notes, reading reflections and scientific ideas.</p><a class="inline-link" href={`${base}notes/`}>Explore research notes ↗</a></section>
-  <section class="contact-banner reveal"><div class="eyebrow">05 / STAY CONNECTED</div><h2>Let's build <em>what's next.</em></h2><p>{profile.availability}.</p><a class="button button-light" href={profile.links.linktree} target="_blank" rel="noopener noreferrer">Get in touch <span>↗</span></a><div class="contact-decoration" aria-hidden="true">✳</div></section>
+  <section class="section notes-preview reveal"><div class="section-head"><span class="index-label">07 / FIELD NOTES</span><span class="section-rule"></span></div><h2>Ideas worth <em>writing down.</em></h2><p class="map-caption">A growing collection of technical notes, reading reflections and scientific ideas.</p><a class="inline-link" href={`${base}notes/`}>Explore research notes ↗</a></section>
+  <section class="contact-banner reveal"><div class="eyebrow">08 / STAY CONNECTED</div><h2>Let's build <em>what's next.</em></h2><p>{profile.availability}.</p><a class="button button-light" href={profile.links.linktree} target="_blank" rel="noopener noreferrer">Get in touch <span>↗</span></a><div class="contact-decoration" aria-hidden="true">✳</div></section>
 </Base>
 
 <script>
