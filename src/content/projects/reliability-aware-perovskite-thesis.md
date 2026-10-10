@@ -9,20 +9,12 @@ tags: ["Materials Discovery", "CGCNN", "ALIGNN", "DFT", "Uncertainty Quantificat
 supervisor: "Md. Mahmodul Alam, Assistant Professor, Department of Energy Science and Engineering, KUET"
 featured: true
 image: "/images/perovskite-crystal-graph-dark.png"
+imageLight: "/images/perovskite-crystal-graph-light.png"
+imageDark: "/images/perovskite-crystal-graph-dark.png"
 ---
 
 This undergraduate thesis explores the use of reliability-aware graph learning for lead-free halide perovskite photovoltaic absorber discovery.
 
 Status: Ongoing research. Results and findings have not yet been published here.
 
-## Concept visuals
-
-The following images are conceptual visuals for the thesis card and project page. They reflect the ABX3 crystal / crystal-graph theme of the work.
-
-### Dark version
-
-![Dark conceptual visual for the perovskite thesis](/images/perovskite-crystal-graph-dark.png)
-
-### Light version
-
-![Light conceptual visual for the perovskite thesis](/images/perovskite-crystal-graph-light.png)
+The ABX3 crystal-graph image above is a conceptual illustration, not an actual calculated structure or a reported scientific result.
