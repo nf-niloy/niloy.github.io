@@ -1,0 +1,127 @@
+---
+// A small crystal-lattice return-to-top control shared across all site pages.
+// Matches the site's Deep Ocean teal / plum palette and light / dark modes.
+---
+<button
+  id="crystal-back-to-top"
+  class="crystal-top"
+  type="button"
+  aria-label="Return to top of page"
+  title="Return to top"
+  disabled
+>
+  <svg class="crystal-top-symbol" viewBox="0 0 48 48" aria-hidden="true" fill="none">
+    <!-- Projected crystal cage: deliberately abstract, not a scientific simulation. -->
+    <path class="cage" d="M24 5.5 40 14.75v18.5L24 42.5 8 33.25v-18.5Z" />
+    <path class="bonds" d="M24 5.5v18.5m16-9.25L24 24 8 14.75M8 33.25 24 24l16 9.25M24 24v18.5" />
+    <path class="bonds-faint" d="m8 14.75 32 18.5M40 14.75 8 33.25" />
+    <circle class="node-primary" cx="24" cy="24" r="3.5" />
+    <circle class="node-secondary" cx="24" cy="5.5" r="2.2" />
+    <circle class="node-secondary" cx="40" cy="14.75" r="2.2" />
+    <circle class="node-secondary" cx="8" cy="33.25" r="2.2" />
+    <circle class="node-secondary" cx="24" cy="42.5" r="2.2" />
+    <circle class="node-accent" cx="8" cy="14.75" r="2.2" />
+    <circle class="node-accent" cx="40" cy="33.25" r="2.2" />
+  </svg>
+  <span class="crystal-top-label" aria-hidden="true">TOP</span>
+</button>
+
+<style>
+  .crystal-top {
+    position: fixed;
+    right: 24px;
+    bottom: max(24px, env(safe-area-inset-bottom, 0px) + 18px);
+    z-index: 45;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+    width: 57px;
+    height: 65px;
+    padding: 6px 6px 7px;
+    border-radius: 18px;
+    border: 1px solid var(--line, #2b3644);
+    background: var(--paper, #161c25);
+    background: color-mix(in srgb, var(--paper, #161c25) 92%, transparent);
+    color: var(--ink, #eef2f7);
+    box-shadow: 0 12px 32px rgb(12 24 32 / 12%);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(12px) scale(.96);
+    transition: opacity .25s ease, visibility .25s ease, transform .25s ease,
+                border-color .2s ease, box-shadow .2s ease;
+    cursor: pointer;
+  }
+  .crystal-top.is-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+  }
+  .crystal-top:hover {
+    border-color: var(--accent, #2aa7a2);
+    box-shadow: 0 12px 36px rgb(42 167 162 / 15%);
+    transform: translateY(-3px);
+  }
+  .crystal-top:focus-visible {
+    outline: 2px solid var(--accent, #2aa7a2);
+    outline-offset: 4px;
+  }
+  .crystal-top-symbol {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    transition: transform .45s ease;
+  }
+  .crystal-top:hover .crystal-top-symbol { transform: rotate(18deg); }
+  .cage { stroke: var(--accent-tertiary, #82418e); stroke-width: 1.45; opacity: .9; }
+  .bonds { stroke: var(--accent, #2aa7a2); stroke-width: 1.2; opacity: .9; }
+  .bonds-faint { stroke: var(--accent-secondary, #2b6c88); stroke-width: .75; opacity: .45; }
+  .node-primary { fill: var(--accent, #2aa7a2); }
+  .node-secondary { fill: var(--accent-tertiary, #82418e); }
+  .node-accent { fill: var(--accent, #2aa7a2); }
+  .crystal-top-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: .15em;
+    line-height: 1.1;
+    color: var(--muted, #a8b3c2);
+  }
+  @media (max-width: 760px) {
+    .crystal-top {
+      right: 16px;
+      bottom: max(16px, env(safe-area-inset-bottom, 0px) + 12px);
+      width: 49px;
+      height: 56px;
+      border-radius: 15px;
+    }
+    .crystal-top-symbol { width: 30px; height: 30px; }
+    .crystal-top-label { font-size: 8px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .crystal-top, .crystal-top-symbol { transition: none; }
+    .crystal-top:hover .crystal-top-symbol { transform: none; }
+  }
+</style>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>('#crystal-back-to-top');
+  if (button) {
+    const refreshVisibility = () => {
+      const visible = window.scrollY > Math.max(420, window.innerHeight * 0.65);
+      button.disabled = !visible;
+      button.classList.toggle('is-visible', visible);
+    };
+    button.addEventListener('click', () => {
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: 0, behavior: reducedMotion ? 'instant' : 'smooth' });
+    });
+    window.addEventListener('scroll', refreshVisibility, { passive: true });
+    refreshVisibility();
+  }
+</script>

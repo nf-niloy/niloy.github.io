@@ -1,6 +1,7 @@
 ---
 import { profile } from '../data/profile';
 import FooterClock from '../components/FooterClock.astro';
+import BackToTop from '../components/BackToTop.astro';
 import '../styles.css';
 import 'katex/dist/katex.min.css';
 const { title = 'Research & Exploration', description = profile.intro } = Astro.props;
@@ -148,5 +149,6 @@ const path = (p: string) => `${base}${p.replace(/^\//,'')}`;
     const ob = 'IntersectionObserver' in window ? new IntersectionObserver(entries => entries.forEach(e => {if (e.isIntersecting) {e.target.classList.add('is-visible');ob.unobserve(e.target);}}), {threshold: .08}) : null;
     document.querySelectorAll('.reveal').forEach(el => ob ? ob.observe(el) : el.classList.add('is-visible'));
   </script>
+  <BackToTop />
 </body>
 </html>

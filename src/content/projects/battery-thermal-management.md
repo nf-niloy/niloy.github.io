@@ -3,7 +3,8 @@ title: "Arduino-Based Intelligent Battery Thermal Management System for Real-Tim
 shortTitle: "Intelligent Battery Thermal Management"
 year: 2025
 status: Completed
-type: Engineering project
+type: Third-Year Engineering Project
+supervisor: "Dr. Md. Shameem Hossain, Professor, Department of Energy Science and Engineering, KUET"
 summary: "An Arduino-based intelligent battery thermal management system with continuous dual-sensor monitoring and automated three-stage thermal protection."
 tags: ["Arduino", "Battery systems", "Embedded systems", "Thermal management"]
 image: "https://raw.githubusercontent.com/nf-niloy/arduino-battery-thermal-management/main/assets/setup.jpg"
