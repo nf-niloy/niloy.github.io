@@ -17,7 +17,7 @@ const hasThemeImages = Boolean(project.data.imageLight && project.data.imageDark
     <a class="back-link" href={`${base}projects/`}>← All projects</a>
     <header class="case-hero">
       <div class="case-kicker">
-        <span class="index-label">{isThesis ? 'ONGOING RESEARCH' : 'SELECTED ENGINEERING WORK'} / {project.data.year}</span>
+        <span class="index-label">{isThesis ? 'ONGOING RESEARCH' : isWebApp ? 'SOFTWARE & AUTOMATION PROJECT' : 'SELECTED ENGINEERING WORK'} / {project.data.year}</span>
         <span class="case-status">{project.data.status}</span>
       </div>
       <h1>{project.data.title}</h1>
@@ -33,7 +33,7 @@ const hasThemeImages = Boolean(project.data.imageLight && project.data.imageDark
             <a class="theme-link theme-link--light"
                href={project.data.imageLight}
                target="_blank" rel="noopener noreferrer"
-               title="Open light illustration at full resolution">
+               title={isWebApp ? "Open light web interface screenshot at full resolution" : "Open light illustration at full resolution"}>
               <img src={project.data.imageLight}
                    alt={`${isWebApp ? 'Web interface screenshot' : 'Conceptual illustration'} for ${project.data.shortTitle || project.data.title} (light version)`}
                    loading="eager" />
@@ -42,7 +42,7 @@ const hasThemeImages = Boolean(project.data.imageLight && project.data.imageDark
             <a class="theme-link theme-link--dark"
                href={project.data.imageDark}
                target="_blank" rel="noopener noreferrer"
-               title="Open dark illustration at full resolution">
+               title={isWebApp ? "Open dark web interface screenshot at full resolution" : "Open dark illustration at full resolution"}>
               <img src={project.data.imageDark}
                    alt={`${isWebApp ? 'Web interface screenshot' : 'Conceptual illustration'} for ${project.data.shortTitle || project.data.title} (dark version)`}
                    loading="eager" />

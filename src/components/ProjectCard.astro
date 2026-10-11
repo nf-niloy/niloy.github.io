@@ -11,11 +11,11 @@ const hasThemeImages = Boolean(project.data.imageLight && project.data.imageDark
       <>
         <img class="theme-photo theme-photo--light"
              src={project.data.imageLight}
-             alt={`Conceptual crystal graph for ${project.data.shortTitle || project.data.title}`}
+             alt={project.data.demo ? `Web interface screenshot for ${project.data.shortTitle || project.data.title}` : `Conceptual crystal graph for ${project.data.shortTitle || project.data.title}`}
              loading="lazy" />
         <img class="theme-photo theme-photo--dark"
              src={project.data.imageDark}
-             alt={`Conceptual crystal graph for ${project.data.shortTitle || project.data.title}`}
+             alt={project.data.demo ? `Web interface screenshot for ${project.data.shortTitle || project.data.title}` : `Conceptual crystal graph for ${project.data.shortTitle || project.data.title}`}
              loading="lazy" />
       </>
     ) : project.data.image ? (
@@ -36,9 +36,8 @@ const hasThemeImages = Boolean(project.data.imageLight && project.data.imageDark
   <div class="tag-row">{project.data.tags.map(t => <span class="tag">{t}</span>)}</div>
 </a>
 {project.data.demo && (
-  <nav class="project-quick-links" aria-label="Web app and source code">
+  <nav class="project-quick-links" aria-label="Open live web app">
     <a class="project-quick-link project-quick-link--primary" href={project.data.demo} target="_blank" rel="noopener noreferrer">Try live web app <span aria-hidden="true">↗</span></a>
-    {project.data.github && <a class="project-quick-link" href={project.data.github} target="_blank" rel="noopener noreferrer">GitHub source <span aria-hidden="true">↗</span></a>}
   </nav>
 )}
 </div>
