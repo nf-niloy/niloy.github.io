@@ -33,7 +33,7 @@
     const ctx=canvas?.getContext('2d');
     if(!canvas||!ctx) continue;
     let view:View='crystal',w=500,h=350,angle=.57,tilt=.3,dragging=false,px=0,py=0,visible=true,frame=0,t=0;
-    const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches || matchMedia('(max-width: 760px)').matches;
     const nodes:{x:number;y:number;z:number;k:number}[]=[];
     for(let x=-1;x<=1;x++)for(let y=-1;y<=1;y++)for(let z=-1;z<=1;z++)nodes.push({x,y,z,k:(x+y+z+9)%3});
     const edges:[number,number][]=[];

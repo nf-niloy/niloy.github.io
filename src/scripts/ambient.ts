@@ -3,6 +3,7 @@ const canvas=document.querySelector<HTMLCanvasElement>('#ambient-particles');
 const ctx=canvas?.getContext('2d',{alpha:true});
 if(canvas&&ctx){
  const motion=window.matchMedia('(prefers-reduced-motion: reduce)');
+ const mobile=window.matchMedia('(max-width: 760px)'); // Keep background visuals static on phones.
  let width=0,height=0,scale=1,frame=0,last=0,elapsed=0,visible=!document.hidden;
  let pointer={x:0,y:0,active:false};
  type Particle={x:number;y:number;vx:number;vy:number;r:number};
@@ -38,7 +39,7 @@ if(canvas&&ctx){
   }
  }
  function loop(t:number){if(!visible)return;const interval=width<640?55:34;if(t-last>=interval){if(!motion.matches)elapsed+=t-last;paint(!motion.matches);last=t;}frame=requestAnimationFrame(loop);}
- function restart(){cancelAnimationFrame(frame);visible=!document.hidden;paint(false);if(visible&&!motion.matches)frame=requestAnimationFrame(loop);}
+ function restart(){cancelAnimationFrame(frame);visible=!document.hidden;paint(false);if(visible&&!motion.matches&&!mobile.matches)frame=requestAnimationFrame(loop);}
  let resizePending=0;
  window.addEventListener('resize',()=>{cancelAnimationFrame(resizePending);resizePending=requestAnimationFrame(()=>{resize();restart();});},{passive:true});
  document.addEventListener('visibilitychange',restart);

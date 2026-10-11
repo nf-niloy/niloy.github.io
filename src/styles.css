@@ -501,3 +501,22 @@ button,[role="tab"]{touch-action:manipulation}
   .footer-bottom .footer-links { gap:12px 18px; }
   .footer-identity p { font-size:11.5px; }
 }
+
+
+/* NILoy mobile performance patch v1 - keep theme, reduce costly redraws */
+@media (max-width: 760px) {
+  /* Solid mobile navigation avoids repeatedly recompositing a blurred fixed layer. */
+  .site-header, .mobile-nav, .crystal-top {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  .site-header { background: var(--bg) !important; }
+  /* Keep ambient decoration without costly blur filters or animated layers. */
+  .ambient-orb { animation: none !important; filter: none !important; will-change: auto !important; }
+  /* Show content immediately, avoiding dozens of scroll-triggered transitions. */
+  .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+  /* Vertical finger swipes should scroll, even when starting over crystal panels. */
+  .graph-stage, .graph-stage.dragging, .explorer-visual, .explorer-visual.is-dragging {
+    touch-action: pan-y !important;
+  }
+}
