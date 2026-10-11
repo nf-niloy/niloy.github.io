@@ -9,6 +9,7 @@ const { project } = Astro.props;
 const { Content, headings } = await render(project);
 const base = import.meta.env.BASE_URL;
 const isThesis = project.data.type === 'Undergraduate Thesis';
+const isWebApp = Boolean(project.data.demo);
 const hasThemeImages = Boolean(project.data.imageLight && project.data.imageDark);
 ---
 <Base title={project.data.shortTitle || project.data.title} description={project.data.summary}>
@@ -26,7 +27,7 @@ const hasThemeImages = Boolean(project.data.imageLight && project.data.imageDark
     </header>
 
     {(hasThemeImages || project.data.image) && (
-      <section class="case-visual" aria-label={isThesis ? 'Conceptual research illustration' : 'Project photograph'}>
+      <section class="case-visual" aria-label={isThesis ? 'Conceptual research illustration' : isWebApp ? 'Web application screenshots' : 'Project photograph'}>
         {hasThemeImages ? (
           <>
             <a class="theme-link theme-link--light"
@@ -34,7 +35,7 @@ const hasThemeImages = Boolean(project.data.imageLight && project.data.imageDark
                target="_blank" rel="noopener noreferrer"
                title="Open light illustration at full resolution">
               <img src={project.data.imageLight}
-                   alt={`Conceptual illustration for ${project.data.shortTitle || project.data.title} (light version)`}
+                   alt={`${isWebApp ? 'Web interface screenshot' : 'Conceptual illustration'} for ${project.data.shortTitle || project.data.title} (light version)`}
                    loading="eager" />
               <span class="case-visual-action">VIEW ORIGINAL ↗</span>
             </a>
@@ -43,7 +44,7 @@ const hasThemeImages = Boolean(project.data.imageLight && project.data.imageDark
                target="_blank" rel="noopener noreferrer"
                title="Open dark illustration at full resolution">
               <img src={project.data.imageDark}
-                   alt={`Conceptual illustration for ${project.data.shortTitle || project.data.title} (dark version)`}
+                   alt={`${isWebApp ? 'Web interface screenshot' : 'Conceptual illustration'} for ${project.data.shortTitle || project.data.title} (dark version)`}
                    loading="eager" />
               <span class="case-visual-action">VIEW ORIGINAL ↗</span>
             </a>
@@ -56,7 +57,7 @@ const hasThemeImages = Boolean(project.data.imageLight && project.data.imageDark
             <span class="case-visual-action">VIEW ORIGINAL ↗</span>
           </a>
         )}
-        <p>{isThesis ? '01 / CONCEPTUAL ILLUSTRATION — NOT A SIMULATION RESULT' : '01 / PROJECT DOCUMENTATION — PHYSICAL SETUP'}</p>
+        <p>{isThesis ? '01 / CONCEPTUAL ILLUSTRATION — NOT A SIMULATION RESULT' : isWebApp ? '01 / AUTOLAB SCADA — WEB INTERFACE PREVIEW' : '01 / PROJECT DOCUMENTATION — PHYSICAL SETUP'}</p>
       </section>
     )}
 
@@ -65,9 +66,10 @@ const hasThemeImages = Boolean(project.data.imageLight && project.data.imageDark
         <div class="case-fact"><span>STATUS</span><p>{project.data.status}</p></div>
         <div class="case-fact"><span>YEAR</span><p>{project.data.year}</p></div>
         <div class="case-fact"><span>CATEGORY</span><p>{project.data.type}</p></div>
-        {!isThesis && (project.data.github || project.data.report) && (
+        {!isThesis && (project.data.github || project.data.report || project.data.demo) && (
           <div class="case-actions">
             <span class="index-label">PROJECT RESOURCES</span>
+            {project.data.demo && <a href={project.data.demo} target="_blank" rel="noopener noreferrer">Try live web app <span>↗</span></a>}
             {project.data.github && <a href={project.data.github} target="_blank" rel="noopener noreferrer">Source repository <span>↗</span></a>}
             {project.data.report && <a href={project.data.report} target="_blank" rel="noopener noreferrer">Technical report (PDF) <span>↗</span></a>}
           </div>
@@ -86,7 +88,8 @@ const hasThemeImages = Boolean(project.data.imageLight && project.data.imageDark
     {project.data.github && !isThesis && (
       <div class="case-endnote">
         <div><span class="index-label">EXPLORE THE IMPLEMENTATION</span><h2>From idea to <em>working system.</em></h2></div>
-        <a class="button button-dark" href={project.data.github} target="_blank" rel="noopener noreferrer">View project on GitHub ↗</a>
+        {project.data.demo && <a class="button button-dark" href={project.data.demo} target="_blank" rel="noopener noreferrer">Try live web app ↗</a>}
+        <a class={project.data.demo ? 'button button-light' : 'button button-dark'} href={project.data.github} target="_blank" rel="noopener noreferrer">View project on GitHub ↗</a>
       </div>
     )}
   </article>

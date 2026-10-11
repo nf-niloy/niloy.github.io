@@ -8,7 +8,7 @@ const projects = defineCollection({
     image: z.string().optional(),
     imageLight: z.string().optional(),
     imageDark: z.string().optional(),
-    github: z.string().url().optional(), report: z.string().url().optional(), featured: z.boolean().default(false), supervisor: z.string().optional()
+    github: z.string().url().optional(), demo: z.string().url().optional(), report: z.string().url().optional(), featured: z.boolean().default(false), supervisor: z.string().optional()
   })
 });
 const notes = defineCollection({

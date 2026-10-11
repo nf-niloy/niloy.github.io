@@ -4,6 +4,7 @@ const { project, index = 0 } = Astro.props as { project: CollectionEntry<'projec
 const base = import.meta.env.BASE_URL;
 const hasThemeImages = Boolean(project.data.imageLight && project.data.imageDark);
 ---
+<div class="project-tile">
 <a class="project-card" href={`${base}projects/${project.id}/`}>
   <div class="project-image">
     {hasThemeImages ? (
@@ -34,8 +35,22 @@ const hasThemeImages = Boolean(project.data.imageLight && project.data.imageDark
   <p>{project.data.summary}</p>
   <div class="tag-row">{project.data.tags.map(t => <span class="tag">{t}</span>)}</div>
 </a>
+{project.data.demo && (
+  <nav class="project-quick-links" aria-label="Web app and source code">
+    <a class="project-quick-link project-quick-link--primary" href={project.data.demo} target="_blank" rel="noopener noreferrer">Try live web app <span aria-hidden="true">↗</span></a>
+    {project.data.github && <a class="project-quick-link" href={project.data.github} target="_blank" rel="noopener noreferrer">GitHub source <span aria-hidden="true">↗</span></a>}
+  </nav>
+)}
+</div>
 
 <style>
+  .project-tile { min-width: 0; }
+  .project-quick-links { display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-top:19px; }
+  .project-quick-link { display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:38px;padding:10px 14px;border:1px solid var(--line);border-radius:999px;font-size:12px;font-weight:700;line-height:1.2;color:var(--ink);background:var(--paper);transition:transform .2s,border-color .2s; }
+  .project-quick-link--primary { background:var(--accent-soft);color:var(--accent);border-color:var(--accent); }
+  .project-quick-link:hover { transform:translateY(-2px);border-color:var(--accent); }
+  .project-quick-link:focus-visible { outline:2px solid var(--accent);outline-offset:3px; }
+
   /* Follow the website's manual light/dark switch, not the OS preference. */
   .project-image img.theme-photo--dark { display: none; }
   :global(html[data-theme='dark']) .project-image img.theme-photo--light { display: none; }
