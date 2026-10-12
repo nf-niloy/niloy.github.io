@@ -4,7 +4,7 @@ shortTitle: "Reliability-Aware Graph Learning for Lead-Free Perovskites"
 year: 2026
 status: "Ongoing"
 type: "Undergraduate Thesis"
-summary: "Exploring crystal graph neural networks and reliability-aware machine learning for predicting material properties and identifying promising lead-free halide perovskite photovoltaic absorbers."
+summary: "Studying crystal graph models and uncertainty-aware property prediction for lead-free halide perovskite photovoltaic absorbers."
 tags: ["Materials Discovery", "CGCNN", "ALIGNN", "DFT", "Uncertainty Quantification"]
 supervisor: "Md. Mahmodul Alam, Assistant Professor, Department of Energy Science and Engineering, KUET"
 featured: true
@@ -13,8 +13,6 @@ imageLight: "/images/perovskite-crystal-graph-light.png"
 imageDark: "/images/perovskite-crystal-graph-dark.png"
 ---
 
-This undergraduate thesis explores the use of reliability-aware graph learning for lead-free halide perovskite photovoltaic absorber discovery.
+This ongoing thesis examines crystal graph models and the reliability of their property predictions for lead-free halide perovskite absorbers.
 
-Status: Ongoing research. Results and findings have not yet been published here.
-
-The ABX3 crystal-graph image above is a conceptual illustration, not an actual calculated structure or a reported scientific result.
+Results are not yet reported here. The ABX3 crystal-graph image is conceptual, not a calculated structure.

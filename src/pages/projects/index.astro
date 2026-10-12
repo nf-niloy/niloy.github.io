@@ -14,4 +14,4 @@ const projects = (await getCollection('projects')).sort((a, b) => {
   return aRank - bRank || b.data.year - a.data.year;
 });
 ---
-<Base title="Projects"><section class="page-top reveal"><span class="index-label">PROJECT ARCHIVE / 01</span><h1>Selected <em>projects.</em></h1><p>Engineering work, experiments, and research projects. This archive grows as new work is completed.</p></section><section class="section page-section"><div class="section-head"><span class="index-label">ALL PROJECTS ({projects.length})</span><span class="section-rule"></span></div><div class="project-grid">{projects.map((project,i)=><ProjectCard project={project} index={i}/>)}</div></section></Base>
+<Base title="Projects"><section class="page-top reveal"><span class="index-label">PROJECT ARCHIVE / 01</span><h1>Selected <em>projects.</em></h1><p>Engineering projects and research work.</p></section><section class="section page-section"><div class="section-head"><span class="index-label">ALL PROJECTS ({projects.length})</span><span class="section-rule"></span></div><div class="project-grid">{projects.map((project,i)=><ProjectCard project={project} index={i}/>)}</div></section></Base>

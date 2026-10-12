@@ -4,7 +4,7 @@ shortTitle: "AutoLab SCADA — Laboratory Automation"
 year: 2026
 status: Completed
 type: Software & Automation Project
-summary: "A completed laboratory automation web platform with a public interactive simulator, a private Python–Arduino control workspace, live temperature monitoring, timed recipes and experiment history."
+summary: "An Arduino-connected monitoring and control platform with live temperature readings, programmable recipes, experiment logs and a public browser demo."
 tags: ["SCADA", "Arduino", "Python", "FastAPI", "Process Automation", "Web App"]
 imageLight: "/images/autolab-scada-welcome-light.png"
 imageDark: "/images/autolab-scada-welcome-dark.png"
@@ -15,23 +15,21 @@ featured: false
 
 ## Overview
 
-AutoLab SCADA is a completed laboratory automation and monitoring platform that combines an interactive web interface with a Python gateway and an Arduino-based controller. It was designed to make simple laboratory processes easier to observe, operate and document using timed sequences, temperature monitoring and experiment records.
+AutoLab SCADA connects a browser dashboard to an Arduino through a local Python gateway. It brings temperature readings, actuator controls, timed recipes and run records into one interface.
 
-The **public web app** provides a fully functional browser simulator so anyone can explore the interface without hardware. A separate, authorized **private control workflow** connects the frontend to the local FastAPI/PySerial gateway and compatible Arduino firmware for sensor telemetry and relay commands. These are intentionally distinct operating modes.
+The **public demo** runs entirely in the browser with simulated data. The **private control mode** uses a separately authorized FastAPI/PySerial connection to the Arduino for hardware telemetry and commands.
 
 ## Features
 
-- **Real-time dashboard:** Temperature channels, status indicators, process trends and event activity.
-- **Manual actuator control:** Motor and fan output commands with software interlocks and stop controls.
-- **Programmable recipes:** Multi-step timing, output selections, repeat cycles and run management.
-- **Experiment history:** Saved process runs, events, timing records and CSV/JSON exports.
-- **Independent public simulation:** Try the entire browser workflow with clearly labeled synthetic signals.
-- **Private hardware workflow:** Arduino Uno communication over USB using a locally hosted Python FastAPI/PySerial gateway and SQLite historian.
-- **Responsive UI:** Light/dark modes, desktop and mobile layouts, and concise process monitoring views.
+- **Monitoring:** Temperature channels, trend charts and event logs.
+- **Control:** Manual motor/fan commands with interlocks and stop controls.
+- **Recipes:** Timed sequences with configurable steps and repeat cycles.
+- **Records:** Run history, timing logs and CSV/JSON exports.
+- **Hardware connection:** Arduino over USB via a local Python gateway, with SQLite history.
 
 ## Interface preview
 
-The following images show the actual AutoLab SCADA web interface. The dashboard preview is in **demo mode**, so the displayed readings are simulated, not experimental measurements.
+Screenshots of the web interface in demo mode. The readings shown are simulated, not measured.
 
 ![AutoLab SCADA overview showing simulated temperature channels, output controls and live charts](/images/autolab-scada-dashboard.png)
 
@@ -50,11 +48,5 @@ Private operator workflow (separately authorized)
                                   └── Local SQLite historian
 ```
 
-The GitHub Pages site hosts the frontend; it does not itself host the Python backend or supply access to physical hardware. Actual hardware operation depends on a connected and authorized local bridge. It is an educational prototype, not a certified industrial safety controller.
+GitHub Pages hosts the frontend only. Hardware control requires the separate, authorized Python gateway and connected Arduino. This is an educational prototype, not a certified safety system.
 
-## Explore the project
-
-- **[Try the interactive web app](https://nf-niloy.github.io/autolab-scada/)** — enter the public demo without additional hardware.
-- **[View source code and documentation](https://github.com/nf-niloy/autolab-scada)** — frontend, backend, controller and implementation notes.
-
-**Project status:** Completed, 2026.

@@ -5,7 +5,7 @@ export const profile = {
   role: 'Undergraduate Researcher',
   eyebrow: 'ENERGY ENGINEERING × MACHINE LEARNING',
   headline: ['From atoms to insights.', 'Through machine learning.'],
-  intro: 'I am an undergraduate Energy Science and Engineering student working at the intersection of machine learning and energy materials.',
+  intro: 'My current research looks at crystal graph learning for lead-free perovskite materials. I have also worked on building energy simulation and Arduino-based monitoring and control.',
   location: 'Khulna, Bangladesh',
   university: 'Khulna University of Engineering & Technology',
   universityAbbr: 'KUET',
@@ -13,11 +13,11 @@ export const profile = {
   degree: 'Bachelor of Science',
   year: '4th year',
   interests: [
-    { title: 'Materials discovery', detail: 'Accelerating the search for useful materials through computation.' },
-    { title: 'Graph neural networks', detail: 'Learning structure-aware representations of molecules and materials.' },
-    { title: 'AI for science', detail: 'Connecting machine learning with physical scientific problems.' },
-    { title: 'Molecular ML', detail: 'Understanding molecular systems through data-driven models.' },
-    { title: 'Density functional theory', detail: 'Exploring first-principles approaches to materials properties.' }
+    { title: 'Materials discovery', detail: 'Computational approaches to finding and evaluating energy materials.' },
+    { title: 'Graph neural networks', detail: 'Using atomic connectivity and structure in property-prediction models.' },
+    { title: 'AI for science', detail: 'Applying machine learning to questions grounded in physical systems.' },
+    { title: 'Molecular ML', detail: 'How molecular structure can be represented and linked to properties.' },
+    { title: 'Density functional theory', detail: 'Learning how first-principles calculations inform materials modeling.' }
   ],
   links: {
     github: 'https://github.com/nf-niloy',
@@ -28,5 +28,5 @@ export const profile = {
     scholar: '',
     orcid: ''
   },
-  availability: 'Exploring research opportunities and collaborations'
+  availability: 'Research and project-related enquiries are welcome'
 } as const;

@@ -65,7 +65,7 @@ const path = (p: string) => `${base}${p.replace(/^\//,'')}`;
         <div class="footer-primary">
           <div class="footer-identity">
             <a class="footer-mark" href={path('')} aria-label="Niloy — home">N<span class="brand-accent">.</span></a>
-            <p>Curiosity, computation<br />& the materials around us.</p>
+            <p>Energy Science and Engineering<br />KUET, Bangladesh</p>
           </div>
           <FooterClock />
         </div>
@@ -75,7 +75,7 @@ const path = (p: string) => `${base}${p.replace(/^\//,'')}`;
             <a href={profile.links.linktree} target="_blank" rel="noopener noreferrer">Linktree ↗</a>
             {profile.links.email && <a href={`mailto:${profile.links.email}`}>Email ↗</a>}
           </nav>
-          <div class="footer-legal"><span>© {new Date().getFullYear()} {profile.name}</span><span class="footer-legal-dot" aria-hidden="true">·</span><span>Built for exploration.</span></div>
+          <div class="footer-legal"><span>© {new Date().getFullYear()} {profile.fullName}</span></div>
         </div>
       </div>
     </footer>

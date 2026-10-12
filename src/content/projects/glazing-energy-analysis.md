@@ -4,7 +4,7 @@ shortTitle: "Glazing Systems & Building Energy Analysis"
 year: 2026
 status: Completed
 type: Academic Project
-summary: "A DesignBuilder–EnergyPlus study comparing four window glazing configurations and their effects on building cooling electricity and solar heat gain."
+summary: "Compared four glazing systems in DesignBuilder and EnergyPlus to assess cooling electricity use and window solar heat gain."
 tags: ["Building Energy", "DesignBuilder", "EnergyPlus", "Glazing", "Energy Efficiency"]
 image: "https://raw.githubusercontent.com/nf-niloy/glazing-energy-analysis/main/figures/building-model.png"
 github: "https://github.com/nf-niloy/glazing-energy-analysis"
@@ -14,9 +14,7 @@ featured: false
 
 ## Overview
 
-This completed undergraduate academic project investigates how different exterior-window glazing systems affect a residential building's simulated energy performance. The analysis was carried out using **DesignBuilder and EnergyPlus** and compares four glazing options under the same modeled building and operating conditions.
-
-The objective was to evaluate both **whole-building cooling electricity** and **solar heat gain through windows**, rather than treating a reduction in solar gain as an equivalent reduction in cooling demand.
+I compared four exterior-window glazing systems using the same residential building model in **DesignBuilder and EnergyPlus**. The focus was on how window solar heat gain changes relate to actual whole-building cooling electricity use.
 
 ## Simulation approach
 
@@ -40,7 +38,7 @@ For the comparison, the model used a **30% exterior window-to-wall ratio**, **24
 
 *Values are outputs of the studied building simulation, not measured energy consumption.*
 
-The **double Low-E** case performed best among the four options for this model. However, the **double clear** case reduced solar gains substantially while showing a slight *increase* in cooling electricity. This illustrates why whole-building performance cannot be inferred directly from glazing solar-gain reduction alone.
+For this model, **double Low-E** gave the lowest annual cooling electricity use. Double clear glazing reduced solar gain but slightly increased cooling electricity—a reminder that the two measures are not interchangeable.
 
 ## Results visualization
 
@@ -54,13 +52,7 @@ The **double Low-E** case performed best among the four options for this model. 
 
 ## Scope and limitations
 
-The findings apply to the **specified residential building, weather, glazing templates and model assumptions**. This was a simulation study, not a field measurement or an independently validated whole-building energy model. A full thermal-comfort analysis, economic payback assessment and sensitivity study were outside the project scope.
+These are **simulation results**, not field measurements. They apply to the modeled building, weather data and operating assumptions; comfort, payback and sensitivity analyses were outside the scope.
 
-The GitHub repository provides the DesignBuilder model files (`.dsb`), exported simulation data, original figures and the complete academic report. The repository notes that an independent exact reproduction has not been verified without the original standalone weather file and software-version information.
+The GitHub repository contains the `.dsb` models, exported data, figures and report. Exact independent reproduction has not been verified without the original standalone weather file and software-version details.
 
-## Project resources
-
-- **[GitHub repository — models, figures and data](https://github.com/nf-niloy/glazing-energy-analysis)**
-- **[Complete project report (PDF)](https://github.com/nf-niloy/glazing-energy-analysis/blob/main/report/glazing-systems-energy-performance.pdf)**
-
-**Academic project · Completed in 2026 · Department of Energy Science and Engineering, KUET.**
