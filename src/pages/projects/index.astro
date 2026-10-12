@@ -2,10 +2,16 @@
 import Base from '../../layouts/Base.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import { getCollection } from 'astro:content';
-const projects = (await getCollection('projects')).sort((a,b) =>
-  b.data.year - a.data.year ||
-  Number(b.data.type === 'Undergraduate Thesis') - Number(a.data.type === 'Undergraduate Thesis') ||
-  Number(b.id === 'glazing-energy-analysis') - Number(a.id === 'glazing-energy-analysis')
-);
+// Project archive display order (independent of completion year).
+const projectRank: Record<string, number> = {
+  'battery-thermal-management': 0,
+  'glazing-energy-analysis': 1,
+  'autolab-scada': 2,
+};
+const projects = (await getCollection('projects')).sort((a, b) => {
+  const aRank = projectRank[a.id] ?? (a.data.type === 'Undergraduate Thesis' ? 3 : 4);
+  const bRank = projectRank[b.id] ?? (b.data.type === 'Undergraduate Thesis' ? 3 : 4);
+  return aRank - bRank || b.data.year - a.data.year;
+});
 ---
 <Base title="Projects"><section class="page-top reveal"><span class="index-label">PROJECT ARCHIVE / 01</span><h1>Selected <em>projects.</em></h1><p>Engineering work, experiments, and research projects. This archive grows as new work is completed.</p></section><section class="section page-section"><div class="section-head"><span class="index-label">ALL PROJECTS ({projects.length})</span><span class="section-rule"></span></div><div class="project-grid">{projects.map((project,i)=><ProjectCard project={project} index={i}/>)}</div></section></Base>
