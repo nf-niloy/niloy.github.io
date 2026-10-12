@@ -2,15 +2,15 @@
 import Base from '../../layouts/Base.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import { getCollection } from 'astro:content';
-// Project archive display order (independent of completion year).
+// Curated archive order (independent of project completion year).
 const projectRank: Record<string, number> = {
-  'battery-thermal-management': 0,
-  'glazing-energy-analysis': 1,
-  'autolab-scada': 2,
+  'autolab-scada': 1,
+  'glazing-energy-analysis': 2,
+  'battery-thermal-management': 3,
 };
 const projects = (await getCollection('projects')).sort((a, b) => {
-  const aRank = projectRank[a.id] ?? (a.data.type === 'Undergraduate Thesis' ? 3 : 4);
-  const bRank = projectRank[b.id] ?? (b.data.type === 'Undergraduate Thesis' ? 3 : 4);
+  const aRank = a.data.type === 'Undergraduate Thesis' ? 0 : (projectRank[a.id] ?? 4);
+  const bRank = b.data.type === 'Undergraduate Thesis' ? 0 : (projectRank[b.id] ?? 4);
   return aRank - bRank || b.data.year - a.data.year;
 });
 ---
