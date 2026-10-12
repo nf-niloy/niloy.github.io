@@ -10,6 +10,7 @@ const { Content, headings } = await render(project);
 const base = import.meta.env.BASE_URL;
 const isThesis = project.data.type === 'Undergraduate Thesis';
 const isWebApp = Boolean(project.data.demo);
+const isAcademic = project.data.type === 'Academic Project';
 const hasThemeImages = Boolean(project.data.imageLight && project.data.imageDark);
 ---
 <Base title={project.data.shortTitle || project.data.title} description={project.data.summary}>
@@ -17,7 +18,7 @@ const hasThemeImages = Boolean(project.data.imageLight && project.data.imageDark
     <a class="back-link" href={`${base}projects/`}>← All projects</a>
     <header class="case-hero">
       <div class="case-kicker">
-        <span class="index-label">{isThesis ? 'ONGOING RESEARCH' : isWebApp ? 'SOFTWARE & AUTOMATION PROJECT' : 'SELECTED ENGINEERING WORK'} / {project.data.year}</span>
+        <span class="index-label">{isThesis ? 'ONGOING RESEARCH' : isWebApp ? 'SOFTWARE & AUTOMATION PROJECT' : isAcademic ? 'ACADEMIC PROJECT' : 'SELECTED ENGINEERING WORK'} / {project.data.year}</span>
         <span class="case-status">{project.data.status}</span>
       </div>
       <h1>{project.data.title}</h1>
@@ -27,7 +28,7 @@ const hasThemeImages = Boolean(project.data.imageLight && project.data.imageDark
     </header>
 
     {(hasThemeImages || project.data.image) && (
-      <section class="case-visual" aria-label={isThesis ? 'Conceptual research illustration' : isWebApp ? 'Web application screenshots' : 'Project photograph'}>
+      <section class="case-visual" aria-label={isThesis ? 'Conceptual research illustration' : isWebApp ? 'Web application screenshots' : isAcademic ? 'Building energy simulation model' : 'Project photograph'}>
         {hasThemeImages ? (
           <>
             <a class="theme-link theme-link--light"
@@ -50,14 +51,14 @@ const hasThemeImages = Boolean(project.data.imageLight && project.data.imageDark
             </a>
           </>
         ) : (
-          <a href={project.data.image} target="_blank" rel="noopener noreferrer" title="Open full-resolution photograph">
+          <a href={project.data.image} target="_blank" rel="noopener noreferrer" title={isAcademic ? "Open full-resolution building model" : "Open full-resolution photograph"}>
             <img src={project.data.image}
-                 alt={`Physical setup photograph for ${project.data.shortTitle || project.data.title}`}
+                 alt={isAcademic ? `DesignBuilder model of the residential building for ${project.data.shortTitle || project.data.title}` : `Physical setup photograph for ${project.data.shortTitle || project.data.title}`}
                  loading="eager" />
             <span class="case-visual-action">VIEW ORIGINAL ↗</span>
           </a>
         )}
-        <p>{isThesis ? '01 / CONCEPTUAL ILLUSTRATION — NOT A SIMULATION RESULT' : isWebApp ? '01 / AUTOLAB SCADA — WEB INTERFACE PREVIEW' : '01 / PROJECT DOCUMENTATION — PHYSICAL SETUP'}</p>
+        <p>{isThesis ? '01 / CONCEPTUAL ILLUSTRATION — NOT A SIMULATION RESULT' : isWebApp ? '01 / AUTOLAB SCADA — WEB INTERFACE PREVIEW' : isAcademic ? '01 / DESIGNBUILDER — RESIDENTIAL BUILDING MODEL' : '01 / PROJECT DOCUMENTATION — PHYSICAL SETUP'}</p>
       </section>
     )}
 

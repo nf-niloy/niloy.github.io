@@ -8,7 +8,8 @@ import { getCollection } from 'astro:content';
 const projects = (await getCollection('projects')).sort((a,b)=>Number(b.data.featured)-Number(a.data.featured)||b.data.year-a.data.year);
 const base = import.meta.env.BASE_URL;
 const thesis = projects.find(p => p.data.type === 'Undergraduate Thesis');
-const otherProjects = projects.filter(p => p.id !== thesis?.id);
+const homeProjectIds = new Set(['battery-thermal-management', 'autolab-scada']);
+const otherProjects = projects.filter(p => homeProjectIds.has(p.id));
 ---
 <Base title="Research & Exploration">
   <section class="hero wide-section" aria-labelledby="hero-title">
@@ -30,7 +31,7 @@ const otherProjects = projects.filter(p => p.id !== thesis?.id);
     <div class="tag-row">{thesis.data.tags.map(tag=><span class="tag">{tag}</span>)}</div>
     <p class="thesis-supervisor">Supervisor: {thesis.data.supervisor}</p>
   </section>}
-  <section class="section work-section" id="work"><div class="section-head reveal"><span class="index-label">03 / SELECTED WORK</span><span class="section-rule"></span><span class="section-aside">PROJECT ARCHIVE — {String(otherProjects.length).padStart(2,'0')}</span></div><div class="section-title-row reveal"><h2>Made to <em>explore.</em></h2><p>A growing collection of engineering projects, experiments and research exploration.</p></div><div class="project-grid reveal">{otherProjects.map((project,i)=><ProjectCard project={project} index={i} />)}</div><a class="inline-link archive-link" href={`${base}projects/`}>Browse all projects <span>↗</span></a></section>
+  <section class="section work-section" id="work"><div class="section-head reveal"><span class="index-label">03 / SELECTED WORK</span><span class="section-rule"></span><span class="section-aside">SELECTED PROJECTS — {String(otherProjects.length).padStart(2,'0')}</span></div><div class="section-title-row reveal"><h2>Made to <em>explore.</em></h2><p>A growing collection of engineering projects, experiments and research exploration.</p></div><div class="project-grid reveal">{otherProjects.map((project,i)=><ProjectCard project={project} index={i} />)}</div><a class="inline-link archive-link" href={`${base}projects/`}>Browse all projects <span>↗</span></a></section>
   <section class="section interests-section"><div class="section-head reveal"><span class="index-label">04 / RESEARCH DIRECTIONS</span><span class="section-rule"></span></div><div class="interests-grid"><div class="reveal"><h2>Thinking<br/>across <em>scales.</em></h2><p class="interest-intro">From electronic structure and molecular interactions to learned representations and materials properties.</p><div class="small-symbol" aria-hidden="true">✳</div></div><div class="interest-list">{profile.interests.map((item,i)=><div class="interest-item reveal"><span class="interest-count">{String(i+1).padStart(2,'0')}</span><div><h3>{item.title}</h3><p>{item.detail}</p></div><span class="interest-arrow">↗</span></div>)}</div></div></section>
   <section class="section reveal" aria-label="Interactive research map">
     <div class="section-head"><span class="index-label">RESEARCH CONSTELLATION</span><span class="section-rule"></span></div>
